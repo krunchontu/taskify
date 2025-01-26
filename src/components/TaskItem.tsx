@@ -19,7 +19,7 @@ interface TaskItemProps {
   task: Task;
   toggleCompleted: (id: string) => void;
   startEditing: (id: string) => void;
-  saveEdit: (id: string, newText: string) => void;
+  saveEdit: (_id: string, _newText: string) => void;
   deleteTask: (id: string) => void;
   expandedNotes: Set<string>;
   toggleNotes: (id: string) => void;
