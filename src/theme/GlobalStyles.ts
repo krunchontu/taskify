@@ -15,7 +15,7 @@ export const GlobalStyles = createGlobalStyle<{ theme: AppTheme }>`
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui;
-    font-size: ${({ theme }) => theme.fontSizes.base};
+    font-size: ${({ theme }) => theme.typography.body};
     background: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.text};
     line-height: 1.6;
