@@ -24,3 +24,8 @@ function App() {
 }
 
 export default App;
+function App() {
+  return <div>Taskify App</div>;
+}
+
+export default App;
