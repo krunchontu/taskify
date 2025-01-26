@@ -15,7 +15,7 @@ export const ThemeToggle = styled.button`
   align-items: center;
   justify-content: center;
   box-shadow: ${({ theme }) => theme.shadows.sm};
-  transition: ${({ theme }) => theme.transition.default};
+  transition: ${({ theme }) => theme.transitions.default};
 
   &:hover {
     transform: scale(1.1);
