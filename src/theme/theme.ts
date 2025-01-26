@@ -18,11 +18,15 @@ export interface AppTheme extends DefaultTheme {
     success: string;
     background: string;
     surface: string;
+    primaryHover: string;
     text: string;
     border: string;
     disabled: string;
     hover: string;
     completed: string;
+    primaryHover: string;
+    secondaryHover: string;
+    dangerHover: string;
   };
   spacing: (multiplier?: number) => string;
   breakpoints: {
@@ -91,6 +95,9 @@ export const baseTheme: AppTheme = {
     disabled: '#95a5a6',
     hover: '#f8f9fa',
     completed: '#95a5a6',
+    primaryHover: '#2980b9',
+    secondaryHover: '#27ae60',
+    dangerHover: '#c0392b',
   },
   shadows: {
     sm: '0 1px 3px rgba(0,0,0,0.12)',
@@ -100,6 +107,7 @@ export const baseTheme: AppTheme = {
   gradients: {
     primary: 'linear-gradient(135deg, #3498db 0%, #2980b9 100%)',
     surface: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
+    primaryHover: 'linear-gradient(135deg, #2980b9 0%, #1f618d 100%)',
   },
   transitions: {
     default: 'all 0.2s ease',
@@ -122,11 +130,15 @@ export const darkThemeOverrides: Partial<AppTheme> = {
     disabled: '#7f8c8d',
     hover: '#404040',
     completed: '#7f8c8d',
+    primaryHover: '#1f618d',
+    secondaryHover: '#2ecc71',
+    dangerHover: '#c0392b',
   },
   gradients: {
     ...baseTheme.gradients,
     surface: 'linear-gradient(145deg, #404040 0%, #2d3436 100%)',
     primary: 'linear-gradient(135deg, #2980b9 0%, #1f618d 100%)',
+    primaryHover: 'linear-gradient(135deg, #1f618d 0%, #145a86 100%)',
   },
   transitions: {
     ...baseTheme.transitions,

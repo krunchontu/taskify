@@ -1,7 +1,8 @@
-import { Button } from './theme/components/Button.styles';
+import { Button } from '../theme/components/Button.styles';
 import styled from 'styled-components';
-import { AppTheme } from './theme/theme';
+import { AppTheme } from '../theme/theme';
 import { useNavigate } from 'react-router-dom';
+import { FallbackProps } from 'react-error-boundary';
 
 const ErrorContainer = styled.div<{ theme: AppTheme }>`
   padding: ${({ theme }) => theme.spacing(4)};
