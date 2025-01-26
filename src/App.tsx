@@ -11,7 +11,13 @@ import { PriorityBadge } from './theme/components/PriorityBadge.styles';
 import { RecurrenceBadge } from './theme/components/RecurrenceBadge.styles';
 import { TagContainer } from './theme/components/TagContainer.styles';
 import { Tag } from './theme/components/Tag.styles';
-import { TaskItem, TaskContent, DateLabel } from './theme/components/TaskCard.styles';
+import { 
+  TaskItem, 
+  TaskContent, 
+  DateLabel,
+  NotesButton,
+  NotesContent 
+} from './theme/components/TaskCard.styles';
 import { ThemeToggle } from './theme/components/ThemeToggle.styles';
 
 interface Task {
@@ -351,10 +357,10 @@ function App() {
                         ))}
                       </TagContainer>
                     )}
-                  </TaskContent>
-                  
-                  <NotesButton 
-                    onClick={(e) => {
+                </TaskContent>
+
+                <NotesButton 
+                    onClick={(e: React.MouseEvent) => {
                       e.stopPropagation();
                       toggleNotes(task.id);
                     }}
