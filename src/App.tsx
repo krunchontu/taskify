@@ -4,28 +4,10 @@ import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './theme/GlobalStyles';
 import { baseTheme, darkThemeOverrides } from './theme/theme';
-import { Container, StyledTaskList } from './theme/components/Layout.styles';
+import { Container } from './theme/components/Layout.styles';
 import TaskList from './components/TaskList';
 import { Task } from './types';
 import TaskForm from './components/TaskForm';
-import {
-  InputGroup,
-  DateTimeInput,
-  Input,
-} from './theme/components/Input.styles';
-import { Button } from './theme/components/Button.styles';
-import { CategoryBadge } from './theme/components/CategoryBadge.styles';
-import { PriorityBadge } from './theme/components/PriorityBadge.styles';
-import { RecurrenceBadge } from './theme/components/RecurrenceBadge.styles';
-import { TagContainer } from './theme/components/TagContainer.styles';
-import { Tag } from './theme/components/Tag.styles';
-import {
-  TaskItem,
-  TaskContent,
-  DateLabel,
-  NotesButton,
-  NotesContent,
-} from './theme/components/TaskCard.styles';
 import { ThemeToggle } from './theme/components/ThemeToggle.styles';
 
 type DropResult = {
@@ -33,9 +15,6 @@ type DropResult = {
   source: { index: number };
 };
 
-type DraggableTask = Task & {
-  index: number;
-};
 
 function App() {
   const [expandedNotes, setExpandedNotes] = useState<Set<number>>(new Set());
@@ -172,20 +151,6 @@ function App() {
     );
   };
 
-  const onDragEnd = (result: DropResult) => {
-    if (
-      !result.destination ||
-      result.destination.index === undefined ||
-      result.source.index === undefined
-    )
-      return;
-
-    const items = Array.from(tasks);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    setTasks(items);
-  };
 
   useEffect(() => {
     tasksRef.current = tasks;
