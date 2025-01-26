@@ -12,7 +12,7 @@ import { ThemeToggle } from './theme/components/ThemeToggle.styles';
 
 
 function App() {
-  const [expandedNotes, setExpandedNotes] = useState<Set<number>>(new Set());
+  const [expandedNotes, setExpandedNotes] = useState<Set<string>>(new Set());
   const tasksRef = useRef<Task[]>([]);
 
   const toggleNotes = (taskId: number) => {
@@ -50,7 +50,7 @@ function App() {
 
     if (newTask.trim() === '') return;
     const task: Task = {
-      id: Date.now(),
+      id: crypto.randomUUID(),
       text: newTask,
       completed: false,
       dueDate: dueDate,
@@ -67,11 +67,11 @@ function App() {
     setReminderDate(null);
   };
 
-  const deleteTask = (id: number) => {
+  const deleteTask = (id: string) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  const toggleCompleted = (id: number) => {
+  const toggleCompleted = (id: string) => {
     setTasks((tasks) =>
       tasks.flatMap((task) => {
         if (task.id === id) {
@@ -107,7 +107,7 @@ function App() {
 
     return {
       ...task,
-      id: Date.now(),
+      id: crypto.randomUUID(),
       completed: false,
       dueDate: nextDueDate,
       reminder: task.reminder
@@ -121,7 +121,7 @@ function App() {
     };
   };
 
-  const startEditing = (id: number) => {
+  const startEditing = (id: string) => {
     setTasks(
       tasks.map((task) =>
         task.id === id
@@ -131,7 +131,7 @@ function App() {
     );
   };
 
-  const saveEdit = (id: number, newText: string, newNotes?: string) => {
+  const saveEdit = (id: string, newText: string, newNotes?: string) => {
     setTasks(
       tasks.map((task) =>
         task.id === id
