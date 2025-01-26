@@ -17,12 +17,12 @@ import { Task } from '../types';
 
 interface TaskItemProps {
   task: Task;
-  toggleCompleted: (id: number) => void;
-  startEditing: (id: number) => void;
-  saveEdit: (id: number, newText: string, newNotes?: string) => void;
-  deleteTask: (id: number) => void;
+  toggleCompleted: (_id: number) => void;
+  startEditing: (_id: number) => void;
+  saveEdit: (_id: number, _newText: string, _newNotes?: string) => void;
+  deleteTask: (_id: number) => void;
   expandedNotes: Set<number>;
-  toggleNotes: (id: number) => void;
+  toggleNotes: (_id: number) => void;
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({
