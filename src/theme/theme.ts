@@ -46,8 +46,9 @@ export interface AppTheme extends DefaultTheme {
     primary: string;
     surface: string;
   };
-  transition: {
+  transitions: {
     default: string;
+    easeInOut: string;
   };
 }
 
@@ -86,8 +87,9 @@ export const baseTheme: AppTheme = {
     primary: 'linear-gradient(135deg, #3498db 0%, #2980b9 100%)',
     surface: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)'
   },
-  transition: {
-    default: 'all 0.2s ease'
+  transitions: {
+    default: 'all 0.2s ease',
+    easeInOut: 'all 0.2s ease-in-out'
   }
 };
 
@@ -109,5 +111,8 @@ export const darkThemeOverrides: Partial<AppTheme> = {
     ...baseTheme.gradients,
     surface: 'linear-gradient(145deg, #404040 0%, #2d3436 100%)',
     primary: 'linear-gradient(135deg, #2980b9 0%, #1f618d 100%)'
+  },
+  transitions: {
+    ...baseTheme.transitions
   }
 };
