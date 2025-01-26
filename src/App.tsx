@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './theme/GlobalStyles';
 import { baseTheme, darkThemeOverrides } from './theme/theme';
@@ -271,7 +271,7 @@ function App() {
   );
 }
 
-function ErrorFallback({ error, resetErrorBoundary }: any) {
+function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
     <div role="alert">
       <p>Something went wrong:</p>
