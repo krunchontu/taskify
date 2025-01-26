@@ -2,7 +2,7 @@ import { DefaultTheme } from 'styled-components';
 
 export type ThemeVariant = 'light' | 'dark';
 
-export interface AppTheme extends DefaultTheme {
+export interface AppTheme {
   fontSizes: {
     xs: string;
     sm: string;

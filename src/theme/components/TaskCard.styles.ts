@@ -27,7 +27,7 @@ export const TaskContent = styled.div<{ $completed: boolean }>`
 
   .status-toggle {
     cursor: pointer;
-    color: ${({ theme }) => theme.colors.textSecondary};
+    color: ${({ theme }) => theme.colors.text};
     transition: color 0.2s;
     padding-top: ${({ theme }) => theme.spacing(0.5)};
 
@@ -56,7 +56,7 @@ export const TaskContent = styled.div<{ $completed: boolean }>`
         align-items: center;
         gap: ${({ theme }) => theme.spacing(0.5)};
         font-size: 0.9rem;
-        color: ${({ theme }) => theme.colors.textSecondary};
+        color: ${({ theme }) => theme.colors.text};
         
         .icon {
           flex-shrink: 0;
@@ -116,7 +116,7 @@ export const TagContainer = styled.div`
 export const Tag = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   background: ${({ theme }) => theme.colors.hover};
-  color: ${({ theme }) => theme.colors.textSecondary};
+  color: ${({ theme }) => theme.colors.text};
   padding: 0.25rem 0.5rem;
   border-radius: ${({ theme }) => theme.radii.full};
 `;
