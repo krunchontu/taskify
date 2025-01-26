@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { ErrorInfo } from 'react';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './theme/GlobalStyles';
@@ -193,7 +194,7 @@ function App() {
       <GlobalStyles theme={darkMode ? { ...baseTheme, ...darkThemeOverrides } : baseTheme} />
       <ErrorBoundary 
         FallbackComponent={ErrorFallback} 
-        onError={(error: Error, info: { componentStack: string | null | undefined }) => {
+        onError={(error: Error, info: ErrorInfo) => {
           console.error('Taskify Error:', error, info);
         }}
       >
