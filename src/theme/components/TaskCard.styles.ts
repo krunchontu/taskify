@@ -87,6 +87,43 @@ export const RecurrenceBadge = styled.span`
   margin-left: ${({ theme }) => theme.spacing(2)};
 `;
 
+export const NotesButton = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.colors.primary};
+  cursor: pointer;
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  padding: ${({ theme }) => theme.spacing(1)};
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(0.5)};
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const NotesContent = styled.div`
+  width: 100%;
+  margin-top: ${({ theme }) => theme.spacing(2)};
+  padding: ${({ theme }) => theme.spacing(2)};
+  background: ${({ theme }) => theme.colors.hover};
+  border-radius: ${({ theme }) => theme.radii.md};
+
+  textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: ${({ theme }) => theme.spacing(1.5)};
+    border: 1px solid ${({ theme }) => theme.colors.border};
+    border-radius: ${({ theme }) => theme.radii.sm};
+    background: ${({ theme }) => theme.colors.surface};
+    color: ${({ theme }) => theme.colors.text};
+    font-family: inherit;
+    resize: vertical;
+  }
+`;
+
 export const DateLabel = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   color: ${({ theme }) => theme.colors.textSecondary};

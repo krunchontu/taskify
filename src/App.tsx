@@ -25,6 +25,7 @@ interface Task {
   category?: string;
   tags?: string[];
   recurrence?: 'daily' | 'weekly' | 'monthly';
+  notes?: string;
 }
 
 type DraggableTask = Task & {
@@ -32,6 +33,16 @@ type DraggableTask = Task & {
 }
 
 function App() {
+  const [expandedNotes, setExpandedNotes] = useState<Set<number>>(new Set());
+
+  const toggleNotes = (taskId: number) => {
+    setExpandedNotes(prev => {
+      const next = new Set(prev);
+      next.has(taskId) ? next.delete(taskId) : next.add(taskId);
+      return next;
+    });
+  };
+
   useEffect(() => {
     if ('Notification' in window) {
       Notification.requestPermission();
@@ -341,7 +352,32 @@ function App() {
                       </TagContainer>
                     )}
                   </TaskContent>
-                  <Button 
+                  
+                  <NotesButton 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleNotes(task.id);
+                    }}
+                    aria-label={`${expandedNotes.has(task.id) ? 'Collapse' : 'Expand'} notes`}
+                  >
+                    {expandedNotes.has(task.id) ? '▲ Notes' : '▼ Notes'}
+                  </NotesButton>
+                </TaskContent>
+
+                {expandedNotes.has(task.id) && (
+                  <NotesContent>
+                    <textarea
+                      value={task.notes || ''}
+                      onChange={(e) => setTasks(tasks.map(t => 
+                        t.id === task.id ? {...t, notes: e.target.value} : t
+                      ))}
+                      placeholder="Add notes..."
+                      aria-label="Task notes"
+                    />
+                  </NotesContent>
+                )}
+
+                <Button 
                     variant="danger" 
                     onClick={() => deleteTask(task.id)}
                     aria-label={`Delete task "${task.text}"`}
