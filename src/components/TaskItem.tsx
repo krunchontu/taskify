@@ -36,7 +36,9 @@ const TaskItem: React.FC<TaskItemProps> = ({
   expandedNotes,
   toggleNotes,
   saveNotes,
-}) => (
+}) => {
+  const { tags = [] } = task;
+  return (
   <StyledTaskItem $completed={task.completed}>
     <TaskContent $completed={task.completed}>
       <div className="status-toggle" onClick={() => toggleCompleted(task.id)}>
@@ -101,9 +103,9 @@ const TaskItem: React.FC<TaskItemProps> = ({
                 {task.recurrence}
               </RecurrenceBadge>
             )}
-            {task.tags?.length > 0 && (
+            {tags.length > 0 && (
               <TagContainer>
-                {task.tags.map((tag) => (
+                {tags.map((tag) => (
                   <Tag key={tag}>{tag}</Tag>
                 ))}
               </TagContainer>

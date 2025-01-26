@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { animationMixin, fadeIn } from '../animations';
 
 export const Button = styled.button<{
-  variant?: 'primary' | 'secondary' | 'danger' | 'text' | 'success';
+  variant?: 'primary' | 'secondary' | 'danger' | 'text' | 'success' | 'icon';
   $isLoading?: boolean;
 }>`
   ${({ theme, variant = 'primary', $isLoading }) => css`
@@ -106,6 +106,27 @@ export const Button = styled.button<{
       opacity: 0.7;
       cursor: not-allowed;
     }
+
+    ${variant === 'icon' &&
+    css`
+      background: none;
+      border: none;
+      padding: 0;
+      color: ${theme.colors.textSecondary};
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        color: ${theme.colors.primary};
+      }
+
+      &:disabled {
+        color: ${theme.colors.disabled};
+        cursor: not-allowed;
+      }
+    `}
     @keyframes spin {
       to {
         transform: rotate(360deg);
