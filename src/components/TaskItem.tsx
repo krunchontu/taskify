@@ -1,4 +1,6 @@
 import React from 'react';
+import { FiEdit, FiTrash, FiCheckCircle, FiCircle, FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { MdAccessTime, MdNotifications } from 'react-icons/md';
 import {
   TaskItem as StyledTaskItem,
   TaskContent,
@@ -36,116 +38,115 @@ const TaskItem: React.FC<TaskItemProps> = ({
   toggleNotes,
   saveNotes,
 }) => (
-  <StyledTaskItem 
-    $completed={task.completed}
-    aria-label={`Task: ${task.text}`}
-    role="listitem"
-  >
-    <TaskContent
-      $completed={task.completed}
-      onClick={() => toggleCompleted(task.id)}
-      onKeyDown={(e) => e.key === 'Enter' && toggleCompleted(task.id)}
-      role="button"
-      tabIndex={0}
-    >
+  <StyledTaskItem $completed={task.completed}>
+    <TaskContent $completed={task.completed}>
+      <div className="status-toggle" onClick={() => toggleCompleted(task.id)}>
+        {task.completed ? (
+          <FiCheckCircle size={24} className="completed-icon" />
+        ) : (
+          <FiCircle size={24} className="incomplete-icon" />
+        )}
+      </div>
+
+      <div className="task-body">
       {task.isEditing ? (
-        <Input
-          type="text"
-          value={task.text}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            saveEdit(task.id, e.target.value)
-          }
-          onBlur={() => saveEdit(task.id, task.text)}
-          autoFocus
-        />
+        <div className="edit-container">
+          <Input
+            type="text"
+            value={task.text}
+            onChange={(e) => saveEdit(task.id, e.target.value)}
+            autoFocus
+          />
+          <div className="edit-actions">
+            <Button variant="success" onClick={() => saveEdit(task.id, task.text)}>
+              Save
+            </Button>
+            <Button variant="secondary" onClick={() => saveEdit(task.id, task.text)}>
+              Cancel
+            </Button>
+          </div>
+        </div>
       ) : (
         <>
-          {task.text}
-          <PriorityBadge $priority={task.priority}>
-            {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
-          </PriorityBadge>
-          <Button
-            variant="secondary"
-            onClick={(e) => {
-              e.stopPropagation();
-              startEditing(task.id);
-            }}
-            aria-label={`Edit task "${task.text}"`}
-            style={{ marginTop: '0.5rem' }}
-          >
-            Edit
-          </Button>
-          {task.recurrence && (
-            <RecurrenceBadge $recurrence={task.recurrence}>
-              {task.recurrence.charAt(0).toUpperCase() +
-                task.recurrence.slice(1)}
-            </RecurrenceBadge>
-          )}
-        </>
-      )}
+          <h3 className="task-text">{task.text}</h3>
+          <div className="task-meta">
       {task.dueDate && (
-        <DateLabel>
-          Due: {new Date(task.dueDate).toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          })}
-        </DateLabel>
+        <div className="date-info">
+          <MdAccessTime className="icon" />
+          <span>
+            {new Date(task.dueDate).toLocaleDateString(undefined, {
+              month: 'short',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}
+          </span>
+        </div>
       )}
       {task.reminder && (
-        <DateLabel>
-          Reminder: {new Date(task.reminder).toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          })}
-        </DateLabel>
+        <div className="date-info">
+          <MdNotifications className="icon" />
+          <span>
+            {new Date(task.reminder).toLocaleDateString()}
+          </span>
+        </div>
       )}
-      {task.category && <CategoryBadge>{task.category}</CategoryBadge>}
-      {task.tags && task.tags.length > 0 && (
-        <TagContainer>
-          {task.tags.map((tag, index) => (
-            <Tag key={index}>#{tag}</Tag>
-          ))}
-        </TagContainer>
+          </div>
+          <div className="task-tags">
+            <PriorityBadge $priority={task.priority}>
+              {task.priority}
+            </PriorityBadge>
+            {task.category && <CategoryBadge>{task.category}</CategoryBadge>}
+            {task.recurrence && (
+              <RecurrenceBadge $recurrence={task.recurrence}>
+                {task.recurrence}
+              </RecurrenceBadge>
+            )}
+            {task.tags?.length > 0 && (
+              <TagContainer>
+                {task.tags.map((tag) => (
+                  <Tag key={tag}>{tag}</Tag>
+                ))}
+              </TagContainer>
+            )}
+          </div>
+        </>
       )}
-    </TaskContent>
+      </div>
 
-    <NotesButton
-      onClick={(e: React.MouseEvent) => {
-        e.stopPropagation();
-        toggleNotes(task.id);
-      }}
-      aria-label={`${expandedNotes.has(task.id) ? 'Collapse' : 'Expand'} notes`}
-    >
-      {expandedNotes.has(task.id) ? '▲ Notes' : '▼ Notes'}
-    </NotesButton>
+      <div className="task-actions">
+        <Button
+          variant="icon"
+          onClick={(e) => {
+            e.stopPropagation();
+            startEditing(task.id);
+          }}
+        >
+          <FiEdit size={18} />
+        </Button>
+        <Button variant="icon" onClick={() => deleteTask(task.id)}>
+          <FiTrash size={18} />
+        </Button>
+        <NotesButton
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleNotes(task.id);
+          }}
+        >
+          {expandedNotes.has(task.id) ? <FiChevronUp /> : <FiChevronDown />}
+        </NotesButton>
+      </div>
+    </TaskContent>
 
     {expandedNotes.has(task.id) && (
       <NotesContent>
         <textarea
           value={task.notes || ''}
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-            saveNotes(task.id, e.target.value);
-          }}
+          onChange={(e) => saveNotes(task.id, e.target.value)}
           placeholder="Add notes..."
-          aria-label="Task notes"
         />
       </NotesContent>
     )}
-
-    <Button
-      variant="danger"
-      onClick={() => deleteTask(task.id)}
-      aria-label={`Delete task "${task.text}"`}
-      style={{ marginTop: '0.5rem' }}
-    >
-      Delete
-    </Button>
   </StyledTaskItem>
 );
 
