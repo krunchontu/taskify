@@ -3,7 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './theme/GlobalStyles';
 import { baseTheme, darkThemeOverrides } from './theme/theme';
 import { Container, TaskList } from './theme/components/Layout.styles';
-import { TaskForm } from './theme/components/Form.styles';
+import TaskForm from './components/TaskForm';
 import { InputGroup, DateTimeInput, Input } from './theme/components/Input.styles';
 import { Button } from './theme/components/Button.styles';
 import { CategoryBadge } from './theme/components/CategoryBadge.styles';
