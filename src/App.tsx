@@ -9,7 +9,7 @@ import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
 import { ThemeToggle } from './theme/components/ThemeToggle.styles';
 import { useTasks } from './hooks/useTasks';
-import { ErrorFallback } from './components/ErrorFallback';
+import ErrorFallback from './components/ErrorFallback';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
