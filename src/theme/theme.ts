@@ -84,13 +84,20 @@ export const baseTheme: AppTheme = {
 export const darkThemeOverrides: Partial<AppTheme> = {
   variant: 'dark',
   colors: {
+    ...baseTheme.colors,
+    primary: '#2980b9',
+    danger: '#c0392b',
     background: '#2d3436',
     surface: '#404040',
     text: '#ffffff',
     border: '#636e72',
-    disabled: '#7f8c8d'
+    disabled: '#7f8c8d',
+    hover: '#404040',
+    completed: '#7f8c8d'
   },
   gradients: {
-    surface: 'linear-gradient(145deg, #404040 0%, #2d3436 100%)'
+    ...baseTheme.gradients,
+    surface: 'linear-gradient(145deg, #404040 0%, #2d3436 100%)',
+    primary: 'linear-gradient(135deg, #2980b9 0%, #1f618d 100%)'
   }
 };

@@ -21,20 +21,35 @@ export const Button = styled.button<{
 
     ${variant === 'primary' && css`
       background: ${theme.gradients.primary};
-      color: white;
+      color: ${theme.colors.surface};
       box-shadow: ${theme.shadows.sm};
     `}
 
     ${variant === 'danger' && css`
       background: ${theme.colors.danger};
-      color: white;
+      color: ${theme.colors.surface};
+    `}
+
+    ${variant === 'success' && css`
+      background: ${theme.colors.success};
+      color: ${theme.colors.surface};
     `}
 
     ${variant === 'text' && css`
       background: transparent;
       color: ${theme.colors.primary};
       padding: ${theme.spacing(0.5)};
+      
+      &:hover {
+        background: ${theme.colors.hover};
+      }
     `}
+
+    &:disabled {
+      ${variant === 'text' && css`
+        color: ${theme.colors.disabled};
+      `}
+    }
 
     &:hover:not(:disabled) {
       filter: brightness(0.95);
