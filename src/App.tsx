@@ -113,15 +113,31 @@ function App() {
           <ul className="task-list">
             {tasks.map(task => (
               <li key={task.id} className={task.completed ? 'completed' : ''}>
-                <span onClick={() => toggleCompleted(task.id)}>
-                  {task.text}
-                </span>
-                <button 
-                  className="delete-btn"
-                  onClick={() => deleteTask(task.id)}
-                >
-                  Delete
-                </button>
+                <div className="task-content">
+                  <span onClick={() => toggleCompleted(task.id)}>
+                    {task.text}
+                    {task.dueDate && (
+                      <div className="task-date">
+                        <span className="date-label">Due:</span>
+                        {new Date(task.dueDate).toLocaleDateString()} 
+                        {new Date(task.dueDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </div>
+                    )}
+                    {task.reminder && (
+                      <div className="task-date">
+                        <span className="date-label">Reminder:</span>
+                        {new Date(task.reminder).toLocaleDateString()}
+                        {new Date(task.reminder).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </div>
+                    )}
+                  </span>
+                  <button 
+                    className="delete-btn"
+                    onClick={() => deleteTask(task.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
