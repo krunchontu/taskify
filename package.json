@@ -40,3 +40,8 @@
     "@types/testing-library__react": "^10.0.1"
   }
 }
+{
+  "scripts": {
+    "setup-icons": "mkdir -p public/icons && cp -r assets/icons/* public/icons/"
+  }
+}
