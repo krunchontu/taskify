@@ -46,6 +46,9 @@ export interface AppTheme extends DefaultTheme {
     primary: string;
     surface: string;
   };
+  transition: {
+    default: string;
+  };
 }
 
 export const baseTheme: AppTheme = {
@@ -82,6 +85,9 @@ export const baseTheme: AppTheme = {
   gradients: {
     primary: 'linear-gradient(135deg, #3498db 0%, #2980b9 100%)',
     surface: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)'
+  },
+  transition: {
+    default: 'all 0.2s ease'
   }
 };
 
