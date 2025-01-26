@@ -3,6 +3,13 @@ import { DefaultTheme } from 'styled-components';
 export type ThemeVariant = 'light' | 'dark';
 
 export interface AppTheme extends DefaultTheme {
+  fontSizes: {
+    xs: string;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+  };
   variant: ThemeVariant;
   colors: {
     primary: string;
@@ -53,6 +60,13 @@ export interface AppTheme extends DefaultTheme {
 }
 
 export const baseTheme: AppTheme = {
+  fontSizes: {
+    xs: '0.75rem',
+    sm: '0.875rem',
+    md: '1rem',
+    lg: '1.125rem',
+    xl: '1.25rem'
+  },
   breakpoints: { sm: 480, md: 768, lg: 992, xl: 1200 },
   spacing: (multiplier = 1) => `${0.5 * multiplier}rem`,
   radii: { sm: '4px', md: '8px', lg: '16px', full: '9999px' },

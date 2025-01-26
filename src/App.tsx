@@ -33,6 +33,14 @@ function App() {
   const [reminderDate, setReminderDate] = useState<Date | null>(null);
 
   const addTask = () => {
+    if ('Notification' in window && Notification.permission !== 'denied') {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          console.log('Notification permission granted');
+        }
+      });
+    }
+
     if (newTask.trim() === '') return;
     const task: Task = {
       id: Date.now(),
@@ -134,9 +142,9 @@ function App() {
           ) : (
             <TaskList>
               {tasks.map(task => (
-                <TaskItem key={task.id} completed={task.completed}>
+                <TaskItem key={task.id} $completed={task.completed}>
                   <TaskContent 
-                    completed={task.completed} 
+                    $completed={task.completed} 
                     onClick={() => toggleCompleted(task.id)}
                   >
                     {task.text}

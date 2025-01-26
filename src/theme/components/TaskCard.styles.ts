@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const TaskItem = styled.li<{ completed: boolean }>`
+export const TaskItem = styled.li<{ $completed: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: start;
@@ -15,16 +15,16 @@ export const TaskItem = styled.li<{ completed: boolean }>`
     box-shadow: ${({ theme }) => theme.shadows.md};
   }
 
-  ${({ completed }) => completed && css`
+  ${({ $completed }) => $completed && css`
     opacity: 0.7;
     background: ${({ theme }) => theme.colors.hover};
   `}
 `;
 
-export const TaskContent = styled.div<{ completed: boolean }>`
+export const TaskContent = styled.div<{ $completed: boolean }>`
   flex: 1;
   cursor: pointer;
-  ${({ completed }) => completed && css`
+  ${({ $completed }) => $completed && css`
     text-decoration: line-through;
     color: ${({ theme }) => theme.colors.completed};
   `}
