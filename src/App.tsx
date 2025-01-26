@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ErrorInfo } from 'react';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
@@ -188,18 +188,23 @@ function App() {
 
   const [darkMode, setDarkMode] = useState(false);
 
+  // Memoize theme configuration
+  const currentTheme = useMemo(() => 
+    darkMode ? { ...baseTheme, ...darkThemeOverrides } : baseTheme,
+    [darkMode] // Only recompute when darkMode changes
+  );
+
+  // Memoize error handler
+  const handleError = useCallback((error: Error, info: ErrorInfo) => {
+    console.error('Taskify Error:', error, info);
+  }, []);
+
   return (
-    <ThemeProvider
-      theme={darkMode ? { ...baseTheme, ...darkThemeOverrides } : baseTheme}
-    >
-      <GlobalStyles
-        theme={darkMode ? { ...baseTheme, ...darkThemeOverrides } : baseTheme}
-      />
+    <ThemeProvider theme={currentTheme}>
+      <GlobalStyles theme={currentTheme} />
       <ErrorBoundary
         FallbackComponent={ErrorFallback}
-        onError={(error: Error, info: ErrorInfo) => {
-          console.error('Taskify Error:', error, info);
-        }}
+        onError={handleError}
       >
         <Container>
           <ThemeToggle onClick={() => setDarkMode(!darkMode)}>
