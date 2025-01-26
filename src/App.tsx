@@ -282,4 +282,3 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
 }
 
 export default App;
-npm install react-error-boundary @types/react-error-boundary
