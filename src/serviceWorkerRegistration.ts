@@ -140,5 +140,3 @@ export function unregister() {
       });
   }
 }
-export function register() {}
-export function unregister() {}
