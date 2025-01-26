@@ -3,7 +3,7 @@ import { AppTheme } from '../theme';
 import { animationMixin, fadeIn } from '../animations';
 
 export const Button = styled.button<{ 
-  variant?: 'primary' | 'danger' | 'text' | 'success'
+  variant?: 'primary' | 'secondary' | 'danger' | 'text' | 'success'
   $isLoading?: boolean
 }>`
   ${({ theme, variant = 'primary', $isLoading }) => css`
@@ -23,6 +23,16 @@ export const Button = styled.button<{
       background: ${theme.gradients.primary};
       color: ${theme.colors.surface};
       box-shadow: ${theme.shadows.sm};
+    `}
+
+    ${variant === 'secondary' && css`
+      background: ${theme.colors.secondary};
+      color: ${theme.colors.surface};
+      border: 1px solid ${theme.colors.secondaryHover};
+      
+      &:hover:not(:disabled) {
+        background: ${theme.colors.secondaryHover};
+      }
     `}
 
     ${variant === 'danger' && css`
