@@ -1,9 +1,40 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Task } from '../types';
 
+// Storage constants
+const STORAGE_KEY = 'tasks_v1';
+const MAX_STORAGE_SIZE = 1_048_576; // 1MB
+
 export const useTasks = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    try {
+      // Clean up legacy storage format first
+      localStorage.removeItem('tasks');
+      
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        // Basic size validation
+        if (saved.length > MAX_STORAGE_SIZE) {
+          throw new Error('Storage contents too large');
+        }
+
+        const parsed = JSON.parse(saved);
+        
+        return parsed.map((task: Task) => ({
+          ...task,
+          dueDate: task.dueDate ? new Date(task.dueDate) : null,
+          reminder: task.reminder ? new Date(task.reminder) : null,
+          // Add date conversions for any future date fields here
+        }));
+      }
+    } catch (error) {
+      console.error('Failed to load tasks from storage:', error);
+      // Clear corrupted storage
+      localStorage.removeItem(STORAGE_KEY);
+    }
+    return [];
+  });
   const tasksRef = useRef<Task[]>([]);
   const [expandedNotes, setExpandedNotes] = useState<Set<string>>(new Set());
   const [newTask, setNewTask] = useState('');
@@ -16,6 +47,27 @@ export const useTasks = () => {
 
   useEffect(() => {
     tasksRef.current = tasks;
+  }, [tasks]);
+
+  // Add persistence effect
+  useEffect(() => {
+    try {
+      if (tasks.length > 0) {
+        const serialized = JSON.stringify(tasks);
+        
+        // Validate payload size
+        if (serialized.length > MAX_STORAGE_SIZE) {
+          throw new Error(`Task storage limit exceeded (max ${MAX_STORAGE_SIZE/1_048_576}MB)`);
+        }
+        
+        localStorage.setItem(STORAGE_KEY, serialized);
+      } else {
+        // Clear storage when no tasks
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    } catch (error) {
+      console.error('Failed to persist tasks:', error);
+    }
   }, [tasks]);
 
   useEffect(() => {
