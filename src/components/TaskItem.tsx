@@ -4,7 +4,6 @@ import { MdAccessTime, MdNotifications } from 'react-icons/md';
 import {
   TaskItem as StyledTaskItem,
   TaskContent,
-  DateLabel,
   NotesButton,
   NotesContent,
 } from '../theme/components/TaskCard.styles';
