@@ -88,10 +88,8 @@ export const Button = styled.button<{
       opacity: 0.7;
       cursor: not-allowed;
     }
-  `}
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   `}
 `;
