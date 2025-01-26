@@ -112,7 +112,7 @@ export const Button = styled.button<{
       background: none;
       border: none;
       padding: 0;
-      color: ${theme.colors.textSecondary};
+      color: ${theme.colors.text};
       cursor: pointer;
       display: inline-flex;
       align-items: center;

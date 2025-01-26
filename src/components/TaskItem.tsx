@@ -149,6 +149,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       </NotesContent>
     )}
   </StyledTaskItem>
-);
+  );
+};
 
 export default React.memo(TaskItem);
