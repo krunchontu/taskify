@@ -13,7 +13,7 @@ interface TaskItemProps {
   task: Task;
   toggleCompleted: (id: number) => void;
   startEditing: (id: number) => void;
-  saveEdit: (id: number, newText: string) => void;
+  saveEdit: (id: number, newText: string, newNotes?: string) => void;
   deleteTask: (id: number) => void;
   expandedNotes: Set<number>;
   toggleNotes: (id: number) => void;

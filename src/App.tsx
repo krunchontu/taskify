@@ -22,19 +22,6 @@ import {
 } from './theme/components/TaskCard.styles';
 import { ThemeToggle } from './theme/components/ThemeToggle.styles';
 
-interface Task {
-  id: number;
-  text: string;
-  completed: boolean;
-  priority: 'low' | 'medium' | 'high';
-  dueDate?: Date | null;
-  reminder?: Date | null;
-  isEditing?: boolean;
-  category?: string;
-  tags?: string[];
-  recurrence?: 'daily' | 'weekly' | 'monthly';
-  notes?: string;
-}
 
 type DraggableTask = Task & {
   index: number;
