@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './theme/GlobalStyles';
 import { baseTheme, darkThemeOverrides } from './theme/theme';
-import { Container, TaskList } from './theme/components/Layout.styles';
+import { Container, StyledTaskList } from './theme/components/Layout.styles';
+import TaskList from './components/TaskList';
+import { Task } from './types';
 import TaskForm from './components/TaskForm';
 import { InputGroup, DateTimeInput, Input } from './theme/components/Input.styles';
 import { Button } from './theme/components/Button.styles';
@@ -234,11 +236,16 @@ function App() {
           {tasks.length === 0 ? (
             <p>No tasks yet. Add your first task!</p>
           ) : (
-            <TaskList>
-              {tasks
-                .filter(task => selectedCategory === 'all' || task.category === selectedCategory)
-                .map(task => (
-                <TaskItem key={task.id} $completed={task.completed}>
+            <TaskList
+              tasks={tasks}
+              selectedCategory={selectedCategory}
+              toggleCompleted={toggleCompleted}
+              startEditing={startEditing}
+              saveEdit={saveEdit}
+              deleteTask={deleteTask}
+              expandedNotes={expandedNotes}
+              toggleNotes={toggleNotes}
+            />
                   <TaskContent 
                     $completed={task.completed} 
                     onClick={() => toggleCompleted(task.id)}

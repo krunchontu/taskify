@@ -1,5 +1,8 @@
 import React from 'react';
-import { TaskForm as StyledTaskForm, InputGroup, DateTimeInput, Input, Button } from '../theme/components/Form.styles';
+import { TaskForm as StyledTaskForm } from '../theme/components/Form.styles';
+import { InputGroup, DateTimeInput, Input } from '../theme/components/Input.styles';
+import { Button } from '../theme/components/Button.styles';
+import { Task } from '../types';
 import { baseTheme } from '../theme/theme';
 
 interface TaskFormProps {
