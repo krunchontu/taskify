@@ -34,10 +34,17 @@ const TaskItem: React.FC<TaskItemProps> = ({
   expandedNotes,
   toggleNotes,
 }) => (
-  <StyledTaskItem $completed={task.completed}>
+  <StyledTaskItem 
+    $completed={task.completed}
+    aria-label={`Task: ${task.text}`}
+    role="listitem"
+  >
     <TaskContent
       $completed={task.completed}
       onClick={() => toggleCompleted(task.id)}
+      onKeyDown={(e) => e.key === 'Enter' && toggleCompleted(task.id)}
+      role="button"
+      tabIndex={0}
     >
       {task.isEditing ? (
         <Input
@@ -74,11 +81,25 @@ const TaskItem: React.FC<TaskItemProps> = ({
         </>
       )}
       {task.dueDate && (
-        <DateLabel>Due: {new Date(task.dueDate).toLocaleString()}</DateLabel>
+        <DateLabel>
+          Due: {new Date(task.dueDate).toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          })}
+        </DateLabel>
       )}
       {task.reminder && (
         <DateLabel>
-          Reminder: {new Date(task.reminder).toLocaleString()}
+          Reminder: {new Date(task.reminder).toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          })}
         </DateLabel>
       )}
       {task.category && <CategoryBadge>{task.category}</CategoryBadge>}
@@ -105,8 +126,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
       <NotesContent>
         <textarea
           value={task.notes || ''}
-          onChange={() => {
-            saveEdit(task.id, task.text);
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+            saveEdit(task.id, e.target.value);
           }}
           placeholder="Add notes..."
           aria-label="Task notes"
@@ -124,4 +145,4 @@ const TaskItem: React.FC<TaskItemProps> = ({
   </StyledTaskItem>
 );
 
-export default TaskItem;
+export default React.memo(TaskItem);
