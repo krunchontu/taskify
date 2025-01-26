@@ -16,13 +16,13 @@ function App() {
   const [expandedNotes, setExpandedNotes] = useState<Set<string>>(new Set());
   const tasksRef = useRef<Task[]>([]);
 
-  const toggleNotes = (taskId: string) => {
+  const toggleNotes = useCallback((taskId: string) => {
     setExpandedNotes((prev) => {
       const next = new Set(prev);
       next.has(taskId) ? next.delete(taskId) : next.add(taskId);
       return next;
     });
-  };
+  }, []);
 
   useEffect(() => {
     if ('Notification' in window) {
@@ -77,11 +77,11 @@ function App() {
     tasks
   ]);
 
-  const deleteTask = (id: string) => {
-    setTasks(tasks.filter((task) => task.id !== id));
-  };
+  const deleteTask = useCallback((id: string) => {
+    setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
+  }, []);
 
-  const toggleCompleted = (id: string) => {
+  const toggleCompleted = useCallback((id: string) => {
     setTasks((tasks) =>
       tasks.flatMap((task) => {
         if (task.id === id) {
@@ -97,9 +97,9 @@ function App() {
         return task;
       })
     );
-  };
+  }, [createRecurringTask]);
 
-  const createRecurringTask = (task: Task): Task => {
+  const createRecurringTask = useCallback((task: Task): Task => {
     const baseDate = task.dueDate || new Date();
     const nextDueDate = new Date(baseDate);
 
@@ -129,9 +129,9 @@ function App() {
           )
         : undefined,
     };
-  };
+  }, []);
 
-  const startEditing = (id: string) => {
+  const startEditing = useCallback((id: string) => {
     setTasks(
       tasks.map((task) =>
         task.id === id
@@ -139,9 +139,9 @@ function App() {
           : { ...task, isEditing: false }
       )
     );
-  };
+  }, []);
 
-  const saveEdit = (id: string, newText: string, newNotes?: string) => {
+  const saveEdit = useCallback((id: string, newText: string, newNotes?: string) => {
     setTasks(
       tasks.map((task) =>
         task.id === id
@@ -154,7 +154,7 @@ function App() {
           : task
       )
     );
-  };
+  }, []);
 
 
   useEffect(() => {
