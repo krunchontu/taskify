@@ -23,6 +23,7 @@ interface Task {
   isEditing?: boolean;
   category?: string;
   tags?: string[];
+  recurrence?: 'daily' | 'weekly' | 'monthly';
 }
 
 type DraggableTask = Task & {
@@ -43,6 +44,7 @@ function App() {
   const [tagsInput, setTagsInput] = useState('');
   const [priorityInput, setPriorityInput] = useState<Task['priority']>('medium');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [recurrenceInput, setRecurrenceInput] = useState<Task['recurrence']>();
 
   const addTask = () => {
     if ('Notification' in window && Notification.permission !== 'denied') {
@@ -62,8 +64,10 @@ function App() {
       reminder: reminderDate,
       priority: priorityInput,
       category: categoryInput || undefined,
-      tags: tagsInput ? tagsInput.split(',').map(t => t.trim()) : undefined
+      tags: tagsInput ? tagsInput.split(',').map(t => t.trim()) : undefined,
+      recurrence: recurrenceInput
     };
+    setRecurrenceInput(undefined);
     setTasks([...tasks, task]);
     setNewTask('');
     setDueDate(null);
@@ -75,9 +79,47 @@ function App() {
   };
 
   const toggleCompleted = (id: number) => {
-    setTasks(tasks.map(task => 
-      task.id === id ? { ...task, completed: !task.completed } : task
-    ));
+    setTasks(tasks => tasks.flatMap(task => {
+      if (task.id === id) {
+        const newCompleted = !task.completed;
+        const updatedTask = { ...task, completed: newCompleted };
+        
+        if (newCompleted && updatedTask.recurrence) {
+          const newTask = createRecurringTask(updatedTask);
+          return [updatedTask, newTask];
+        }
+        return updatedTask;
+      }
+      return task;
+    }));
+  };
+
+  const createRecurringTask = (task: Task): Task => {
+    const baseDate = task.dueDate || new Date();
+    const nextDueDate = new Date(baseDate);
+    
+    switch(task.recurrence) {
+      case 'daily': 
+        nextDueDate.setDate(nextDueDate.getDate() + 1);
+        break;
+      case 'weekly':
+        nextDueDate.setDate(nextDueDate.getDate() + 7);
+        break;
+      case 'monthly':
+        nextDueDate.setMonth(nextDueDate.getMonth() + 1);
+        break;
+    }
+
+    return {
+      ...task,
+      id: Date.now(),
+      completed: false,
+      dueDate: nextDueDate,
+      reminder: task.reminder ? new Date(
+        nextDueDate.getTime() - 
+        (task.dueDate?.getTime() ? task.dueDate.getTime() - task.reminder.getTime() : 0)
+      ) : undefined
+    };
   };
 
   const startEditing = (id: number) => {
@@ -175,6 +217,20 @@ function App() {
                 <option value="Shopping">Shopping</option>
                 <option value="Other">Other</option>
               </select>
+              <select
+                value={recurrenceInput || ''}
+                onChange={(e) => setRecurrenceInput(e.target.value as Task['recurrence'] || undefined)}
+                style={{ 
+                  padding: '0.5rem',
+                  borderRadius: '4px',
+                  border: `1px solid ${baseTheme.colors.border}`
+                }}
+              >
+                <option value="">No Recurrence</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
               <Input
                 type="text"
                 value={tagsInput}
@@ -258,6 +314,11 @@ function App() {
                         >
                           Edit
                         </Button>
+                        {task.recurrence && (
+                          <RecurrenceBadge>
+                            {task.recurrence.charAt(0).toUpperCase() + task.recurrence.slice(1)}
+                          </RecurrenceBadge>
+                        )}
                       </>
                     )}
                     {task.dueDate && (

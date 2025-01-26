@@ -78,6 +78,15 @@ export const PriorityBadge = styled.span<{ $priority: string }>`
   };
 `;
 
+export const RecurrenceBadge = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  background: ${({ theme }) => theme.colors.primary};
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: ${({ theme }) => theme.radii.full};
+  margin-left: ${({ theme }) => theme.spacing(2)};
+`;
+
 export const DateLabel = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   color: ${({ theme }) => theme.colors.textSecondary};
