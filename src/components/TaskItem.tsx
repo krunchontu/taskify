@@ -69,6 +69,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
               startEditing(task.id);
             }}
             aria-label={`Edit task "${task.text}"`}
+            style={{ marginTop: '0.5rem' }}
           >
             Edit
           </Button>
@@ -139,6 +140,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       variant="danger"
       onClick={() => deleteTask(task.id)}
       aria-label={`Delete task "${task.text}"`}
+      style={{ marginTop: '0.5rem' }}
     >
       Delete
     </Button>

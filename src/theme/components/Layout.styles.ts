@@ -18,5 +18,21 @@ export const StyledTaskList = styled.ul`
   margin: 0;
   display: grid;
   gap: ${({ theme }) => theme.spacing(2)};
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: 1fr;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.xl}px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
 `;

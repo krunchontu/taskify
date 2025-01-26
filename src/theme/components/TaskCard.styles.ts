@@ -11,6 +11,7 @@ export const TaskItem = styled.li<{ $completed: boolean }>`
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
+  width: 100%;
 
   &:hover {
     transform: translateY(-2px);
@@ -23,6 +24,11 @@ export const TaskItem = styled.li<{ $completed: boolean }>`
       opacity: 0.7;
       background: ${({ theme }) => theme.colors.hover};
     `}
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
 
 export const TaskContent = styled.div<{ $completed: boolean }>`
