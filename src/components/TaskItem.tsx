@@ -105,7 +105,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       <NotesContent>
         <textarea
           value={task.notes || ''}
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+          onChange={() => {
             saveEdit(task.id, task.text);
           }}
           placeholder="Add notes..."
