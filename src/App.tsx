@@ -86,7 +86,7 @@ function App() {
 
   return (
     <ThemeProvider theme={darkMode ? { ...baseTheme, ...darkThemeOverrides } : baseTheme}>
-      <GlobalStyles />
+      <GlobalStyles theme={darkMode ? { ...baseTheme, ...darkThemeOverrides } : baseTheme} />
       <Container>
         <ThemeToggle onClick={() => setDarkMode(!darkMode)}>
           {darkMode ? '☀️' : '🌙'}
