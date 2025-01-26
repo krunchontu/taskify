@@ -8,6 +8,7 @@ import { InputGroup, DateTimeInput, Input } from './theme/components/Input.style
 import { Button } from './theme/components/Button.styles';
 import { CategoryBadge } from './theme/components/CategoryBadge.styles';
 import { PriorityBadge } from './theme/components/PriorityBadge.styles';
+import { RecurrenceBadge } from './theme/components/RecurrenceBadge.styles';
 import { TagContainer } from './theme/components/TagContainer.styles';
 import { Tag } from './theme/components/Tag.styles';
 import { TaskItem, TaskContent, DateLabel } from './theme/components/TaskCard.styles';
