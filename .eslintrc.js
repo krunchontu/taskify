@@ -45,15 +45,15 @@ module.exports = {
     {
       files: ['src/service-worker.ts'],
       env: {
-        browser: true, // Enables browser globals like `self`
-        worker: true,  // Enables Web Worker globals
-        es6: true,     // Enables ES6 features
+        browser: true,
+        serviceworker: true,
+        es6: true,
       },
       parserOptions: {
         sourceType: 'module',
       },
       rules: {
-        // Add or override rules specific to service-worker.ts if needed
+        'no-restricted-globals': 'off'
       },
     },
   ],

@@ -28,5 +28,17 @@ export default [
   },
   {
     ignores: ['**/build/', '**/node_modules/', '**/dist/']
+  },
+  {
+    files: ['src/service-worker.ts'],
+    languageOptions: {
+      globals: {
+        ServiceWorkerGlobalScope: 'readonly',
+        self: 'readonly',
+      }
+    },
+    env: {
+      serviceworker: true
+    }
   }
 ];
