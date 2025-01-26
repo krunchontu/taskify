@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import { AppTheme } from './theme';
 
-export const GlobalStyles = createGlobalStyle<{ theme: AppTheme }>`
+export const GlobalStyles = createGlobalStyle`
   * {
     box-sizing: border-box;
     transition: background-color 0.3s ease, color 0.3s ease;
