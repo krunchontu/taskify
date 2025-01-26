@@ -24,6 +24,7 @@ const TaskList: React.FC<TaskListProps> = ({
   deleteTask,
   expandedNotes,
   toggleNotes,
+  saveNotes,
 }) => (
   <StyledTaskList>
     {tasks
