@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { ErrorInfo } from 'react';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { ThemeProvider } from 'styled-components';
@@ -50,7 +51,7 @@ function App() {
 
     if (newTask.trim() === '') return;
     const task: Task = {
-      id: crypto.randomUUID(),
+      id: uuidv4(),
       text: newTask,
       completed: false,
       dueDate: dueDate,
