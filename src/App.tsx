@@ -85,19 +85,25 @@ function App() {
             type="text"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
-            placeholder="Add a new task..."
+            placeholder="Task description..."
             onKeyPress={(e) => e.key === 'Enter' && addTask()}
           />
-          <input
-            type="datetime-local"
-            value={dueDate?.toISOString().slice(0, 16) || ''}
-            onChange={(e) => setDueDate(new Date(e.target.value))}
-          />
-          <input
-            type="datetime-local"
-            value={reminderDate?.toISOString().slice(0, 16) || ''}
-            onChange={(e) => setReminderDate(new Date(e.target.value))}
-          />
+          <div className="date-input">
+            <label>Due Date:</label>
+            <input
+              type="datetime-local"
+              value={dueDate?.toISOString().slice(0, 16) || ''}
+              onChange={(e) => setDueDate(new Date(e.target.value))}
+            />
+          </div>
+          <div className="date-input">
+            <label>Reminder:</label>
+            <input
+              type="datetime-local"
+              value={reminderDate?.toISOString().slice(0, 16) || ''}
+              onChange={(e) => setReminderDate(new Date(e.target.value))}
+            />
+          </div>
           <button onClick={addTask}>Add Task</button>
         </div>
 

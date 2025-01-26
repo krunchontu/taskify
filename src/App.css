@@ -16,6 +16,17 @@
   margin-bottom: 20px;
 }
 
+.date-input {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.date-input label {
+  font-size: 0.8rem;
+  color: #666;
+}
+
 .task-form input {
   flex: 1;
   padding: 10px;
