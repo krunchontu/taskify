@@ -112,7 +112,9 @@ export const darkThemeOverrides: Partial<AppTheme> = {
   colors: {
     ...baseTheme.colors,
     primary: '#2980b9',
-    danger: '#c0392b',
+    danger: '#e74c3c',
+    secondary: '#27ae60',
+    success: '#2ecc71',
     background: '#2d3436',
     surface: '#404040',
     text: '#ffffff',

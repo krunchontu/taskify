@@ -65,6 +65,19 @@ export const Tag = styled.span`
   border-radius: ${({ theme }) => theme.radii.full};
 `;
 
+export const PriorityBadge = styled.span<{ $priority: string }>`
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: ${({ theme }) => theme.radii.full};
+  margin-left: ${({ theme }) => theme.spacing(2)};
+  background: ${({ theme, $priority }) =>
+    $priority === 'high' ? theme.colors.danger :
+    $priority === 'medium' ? theme.colors.secondary :
+    theme.colors.success
+  };
+`;
+
 export const DateLabel = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   color: ${({ theme }) => theme.colors.textSecondary};

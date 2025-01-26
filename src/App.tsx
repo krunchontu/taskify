@@ -16,6 +16,7 @@ interface Task {
   id: number;
   text: string;
   completed: boolean;
+  priority: 'low' | 'medium' | 'high';
   dueDate?: Date | null;
   reminder?: Date | null;
   isEditing?: boolean;
@@ -39,6 +40,7 @@ function App() {
   const [reminderDate, setReminderDate] = useState<Date | null>(null);
   const [categoryInput, setCategoryInput] = useState('');
   const [tagsInput, setTagsInput] = useState('');
+  const [priorityInput, setPriorityInput] = useState<Task['priority']>('medium');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const addTask = () => {
@@ -57,6 +59,7 @@ function App() {
       completed: false,
       dueDate: dueDate,
       reminder: reminderDate,
+      priority: priorityInput,
       category: categoryInput || undefined,
       tags: tagsInput ? tagsInput.split(',').map(t => t.trim()) : undefined
     };
@@ -178,6 +181,19 @@ function App() {
                 placeholder="Tags (comma-separated)"
                 aria-label="Task tags"
               />
+              <select
+                value={priorityInput}
+                onChange={(e) => setPriorityInput(e.target.value as Task['priority'])}
+                style={{ 
+                  padding: '0.5rem',
+                  borderRadius: '4px',
+                  border: `1px solid ${baseTheme.colors.border}`
+                }}
+              >
+                <option value="low">Low Priority</option>
+                <option value="medium">Medium Priority</option>
+                <option value="high">High Priority</option>
+              </select>
             </InputGroup>
             <Button type="submit">Add Task</Button>
           </TaskForm>
@@ -228,6 +244,9 @@ function App() {
                     ) : (
                       <>
                         {task.text}
+                        <PriorityBadge $priority={task.priority}>
+                          {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
+                        </PriorityBadge>
                         <Button 
                           variant="secondary" 
                           onClick={(e) => {
