@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './theme/GlobalStyles';
 import { baseTheme, darkThemeOverrides } from './theme/theme';
@@ -23,12 +24,18 @@ import {
 import { ThemeToggle } from './theme/components/ThemeToggle.styles';
 
 
+type DropResult = {
+  destination?: { index: number };
+  source: { index: number };
+};
+
 type DraggableTask = Task & {
   index: number;
 }
 
 function App() {
   const [expandedNotes, setExpandedNotes] = useState<Set<number>>(new Set());
+  const tasksRef = useRef<Task[]>([]);
 
   const toggleNotes = (taskId: number) => {
     setExpandedNotes(prev => {
@@ -146,8 +153,10 @@ function App() {
     ));
   };
 
-  const onDragEnd = (result: any) => {
-    if (!result.destination) return;
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination || 
+        result.destination.index === undefined || 
+        result.source.index === undefined) return;
     
     const items = Array.from(tasks);
     const [reorderedItem] = items.splice(result.source.index, 1);
@@ -157,8 +166,12 @@ function App() {
   };
 
   useEffect(() => {
-    const checkReminders = () => {
-      tasks.forEach(task => {
+    tasksRef.current = tasks;
+  }, [tasks]);
+
+  useEffect(() => {
+    const checkReminders = (currentTasks: Task[]) => {
+      currentTasks.forEach(task => {
         if (task.reminder && new Date() > task.reminder) {
           new Notification(`Reminder: ${task.text}`, {
             body: `Task due soon!`
@@ -167,16 +180,24 @@ function App() {
       });
     };
 
-    const interval = setInterval(checkReminders, 60000);
+    const interval = setInterval(() => {
+      checkReminders(tasksRef.current);
+    }, 60000);
     return () => clearInterval(interval);
-  }, [tasks]);
+  }, []);
 
   const [darkMode, setDarkMode] = useState(false);
 
   return (
     <ThemeProvider theme={darkMode ? { ...baseTheme, ...darkThemeOverrides } : baseTheme}>
       <GlobalStyles theme={darkMode ? { ...baseTheme, ...darkThemeOverrides } : baseTheme} />
-      <Container>
+      <ErrorBoundary 
+        FallbackComponent={ErrorFallback}
+        onError={(error, info) => {
+          console.error('Taskify Error:', error, info);
+        }}
+      >
+        <Container>
         <ThemeToggle onClick={() => setDarkMode(!darkMode)}>
           {darkMode ? '☀️' : '🌙'}
         </ThemeToggle>
@@ -226,9 +247,12 @@ function App() {
           </div>
 
           {tasks.length === 0 ? (
-            <p>No tasks yet. Add your first task!</p>
+            <p role="status" aria-live="polite" aria-atomic="true">
+              No tasks yet. Add your first task!
+            </p>
           ) : (
-            <TaskList
+            <div role="region" aria-label="Task list">
+              <TaskList
               tasks={tasks}
               selectedCategory={selectedCategory}
               toggleCompleted={toggleCompleted}
@@ -237,11 +261,23 @@ function App() {
               deleteTask={deleteTask}
               expandedNotes={expandedNotes}
               toggleNotes={toggleNotes}
-            />
+              />
+            </div>
           )}
         </main>
-      </Container>
+        </Container>
+      </ErrorBoundary>
     </ThemeProvider>
+  );
+}
+
+function ErrorFallback({ error, resetErrorBoundary }: any) {
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre>{error.message}</pre>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </div>
   );
 }
 
