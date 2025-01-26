@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ErrorInfo } from 'react';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { ThemeProvider } from 'styled-components';
@@ -39,7 +39,7 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [recurrenceInput, setRecurrenceInput] = useState<Task['recurrence']>();
 
-  const addTask = () => {
+  const addTask = useCallback(() => {
     if ('Notification' in window && Notification.permission !== 'denied') {
       Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
@@ -65,7 +65,16 @@ function App() {
     setNewTask('');
     setDueDate(null);
     setReminderDate(null);
-  };
+  }, [
+    newTask, 
+    dueDate, 
+    reminderDate, 
+    priorityInput, 
+    categoryInput, 
+    tagsInput, 
+    recurrenceInput, 
+    tasks
+  ]);
 
   const deleteTask = (id: string) => {
     setTasks(tasks.filter((task) => task.id !== id));
@@ -149,7 +158,7 @@ function App() {
 
   useEffect(() => {
     tasksRef.current = tasks;
-  }, [tasks]);
+  }, [tasks]); // Already correct, but confirming it's present
 
   useEffect(() => {
     const checkReminders = (currentTasks: Task[]) => {
@@ -166,7 +175,7 @@ function App() {
       checkReminders(tasksRef.current);
     }, 60000);
     return () => clearInterval(interval);
-  }, []);
+  }, [tasksRef]);
 
   const [darkMode, setDarkMode] = useState(false);
 
