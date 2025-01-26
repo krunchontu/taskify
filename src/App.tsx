@@ -10,11 +10,6 @@ import { Task } from './types';
 import TaskForm from './components/TaskForm';
 import { ThemeToggle } from './theme/components/ThemeToggle.styles';
 
-type DropResult = {
-  destination?: { index: number };
-  source: { index: number };
-};
-
 
 function App() {
   const [expandedNotes, setExpandedNotes] = useState<Set<number>>(new Set());
