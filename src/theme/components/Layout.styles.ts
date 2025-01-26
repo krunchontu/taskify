@@ -10,6 +10,10 @@ export const Container = styled.div`
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     padding: ${({ theme }) => theme.spacing(2)};
   }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    padding: ${({ theme }) => theme.spacing(6)};
+  }
 `;
 
 export const StyledTaskList = styled.ul`
