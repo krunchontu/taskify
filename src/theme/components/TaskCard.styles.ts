@@ -3,17 +3,22 @@ import styled, { css } from 'styled-components';
 export const TaskItem = styled.li<{ completed: boolean }>`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: ${({ theme }) => theme.spacing(2)};
-  background: ${({ theme, completed }) => 
-    completed ? theme.colors.hover : 'transparent'};
-  border: 2px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.md};
-  transition: all 0.2s ease;
-
+  align-items: start;
+  padding: ${({ theme }) => theme.spacing(3)};
+  background: ${({ theme }) => theme.colors.surface};
+  border-radius: ${({ theme }) => theme.radii.lg};
+  box-shadow: ${({ theme }) => theme.shadows.sm};
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
   &:hover {
-    background: ${({ theme }) => theme.colors.hover};
+    transform: translateY(-2px);
+    box-shadow: ${({ theme }) => theme.shadows.md};
   }
+
+  ${({ completed }) => completed && css`
+    opacity: 0.7;
+    background: ${({ theme }) => theme.colors.hover};
+  `}
 `;
 
 export const TaskContent = styled.div<{ completed: boolean }>`
@@ -26,7 +31,12 @@ export const TaskContent = styled.div<{ completed: boolean }>`
 `;
 
 export const DateLabel = styled.span`
-  font-size: 0.8rem;
-  color: ${({ theme }) => theme.colors.completed};
-  margin-top: ${({ theme }) => theme.spacing(0.25)};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  padding: ${({ theme }) => theme.spacing(0.5)} ${({ theme }) => theme.spacing(1)};
+  background: ${({ theme }) => theme.colors.hover};
+  border-radius: ${({ theme }) => theme.radii.md};
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(0.5)};
 `;

@@ -51,9 +51,34 @@ export const Button = styled.button<{
       `}
     }
 
-    &:hover:not(:disabled) {
-      filter: brightness(0.95);
-    }
+    transition: all 0.2s ${theme.transitions.easeInOut};
+    
+    ${variant === 'primary' && css`
+      background: ${theme.gradients.primary};
+      &:hover:not(:disabled) {
+        background: ${theme.gradients.primaryHover};
+      }
+    `}
+
+    ${variant === 'danger' && css`
+      background: ${theme.colors.danger};
+      &:hover:not(:disabled) {
+        background: ${theme.colors.dangerHover};
+      }
+    `}
+
+    // Loading state enhancement
+    ${$isLoading && css`
+      &::after {
+        content: '';
+        width: 1.2em;
+        height: 1.2em;
+        border: 2px solid currentColor;
+        border-radius: 50%;
+        border-right-color: transparent;
+        animation: spin 0.6s linear infinite;
+      }
+    `}
 
     &:active:not(:disabled) {
       transform: scale(0.98);
@@ -63,5 +88,10 @@ export const Button = styled.button<{
       opacity: 0.7;
       cursor: not-allowed;
     }
+  `}
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
   `}
 `;

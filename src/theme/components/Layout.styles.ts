@@ -1,17 +1,22 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  max-width: 800px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: ${({ theme }) => theme.spacing(4)};
-  min-height: 100vh;
+  width: 100%;
+  flex-grow: 1;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    padding: ${({ theme }) => theme.spacing(2)};
+  }
 `;
 
 export const TaskList = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing(0.5)};
+  display: grid;
+  gap: ${({ theme }) => theme.spacing(2)};
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 `;
