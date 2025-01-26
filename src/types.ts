@@ -10,4 +10,5 @@ export interface Task {
   tags?: string[];
   recurrence?: 'daily' | 'weekly' | 'monthly';
   notes?: string;
+  isEditing?: boolean;
 }

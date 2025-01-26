@@ -148,9 +148,14 @@ function App() {
     ));
   };
 
-  const saveEdit = (id: number, newText: string) => {
+  const saveEdit = (id: number, newText: string, newNotes?: string) => {
     setTasks(tasks.map(task => 
-      task.id === id ? { ...task, text: newText, isEditing: false } : task
+      task.id === id ? { 
+        ...task, 
+        text: newText, 
+        notes: newNotes !== undefined ? newNotes : task.notes,
+        isEditing: false 
+      } : task
     ));
   };
 

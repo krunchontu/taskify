@@ -1,6 +1,10 @@
 import React from 'react';
 import { TaskItem as StyledTaskItem, TaskContent, DateLabel, NotesButton, NotesContent } from '../theme/components/TaskCard.styles';
-import { PriorityBadge, CategoryBadge, RecurrenceBadge, TagContainer, Tag } from '../theme/components';
+import { PriorityBadge } from '../theme/components/PriorityBadge.styles';
+import { CategoryBadge } from '../theme/components/CategoryBadge.styles';
+import { RecurrenceBadge } from '../theme/components/RecurrenceBadge.styles';
+import { TagContainer } from '../theme/components/TagContainer.styles';
+import { Tag } from '../theme/components/Tag.styles';
 import { Button } from '../theme/components/Button.styles';
 import { Input } from '../theme/components/Input.styles';
 import { Task } from '../types';
@@ -56,7 +60,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
             Edit
           </Button>
           {task.recurrence && (
-            <RecurrenceBadge>
+            <RecurrenceBadge $recurrence={task.recurrence}>
               {task.recurrence.charAt(0).toUpperCase() + task.recurrence.slice(1)}
             </RecurrenceBadge>
           )}
