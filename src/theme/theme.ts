@@ -24,7 +24,6 @@ export interface AppTheme extends DefaultTheme {
     disabled: string;
     hover: string;
     completed: string;
-    primaryHover: string;
     secondaryHover: string;
     dangerHover: string;
   };
@@ -56,6 +55,7 @@ export interface AppTheme extends DefaultTheme {
   gradients: {
     primary: string;
     surface: string;
+    primaryHover: string;
   };
   transitions: {
     default: string;
