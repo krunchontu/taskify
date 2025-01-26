@@ -179,6 +179,27 @@ function App() {
             <Button type="submit">Add Task</Button>
           </TaskForm>
 
+          <div style={{ margin: '1rem 0' }}>
+            <label htmlFor="category-filter">Filter by Category: </label>
+            <select
+              id="category-filter"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              style={{
+                padding: '0.5rem',
+                marginLeft: '0.5rem',
+                borderRadius: '4px',
+                border: `1px solid ${baseTheme.colors.border}`
+              }}
+            >
+              <option value="all">All Tasks</option>
+              <option value="Personal">Personal</option>
+              <option value="Work">Work</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
           {tasks.length === 0 ? (
             <p>No tasks yet. Add your first task!</p>
           ) : (
