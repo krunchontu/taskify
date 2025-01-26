@@ -40,5 +40,21 @@ module.exports = {
         allowTaggedTemplates: true
       }
     ]
-  }
+  },
+  overrides: [
+    {
+      files: ['src/service-worker.ts'],
+      env: {
+        browser: true, // Enables browser globals like `self`
+        worker: true,  // Enables Web Worker globals
+        es6: true,     // Enables ES6 features
+      },
+      parserOptions: {
+        sourceType: 'module',
+      },
+      rules: {
+        // Add or override rules specific to service-worker.ts if needed
+      },
+    },
+  ],
 };
