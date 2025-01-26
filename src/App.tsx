@@ -193,7 +193,7 @@ function App() {
       <GlobalStyles theme={darkMode ? { ...baseTheme, ...darkThemeOverrides } : baseTheme} />
       <ErrorBoundary 
         FallbackComponent={ErrorFallback} 
-        onError={(error: Error, info: { componentStack: string }) => {
+        onError={(error: Error, info: React.ErrorInfo) => {
           console.error('Taskify Error:', error, info);
         }}
       >
