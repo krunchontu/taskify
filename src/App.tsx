@@ -16,6 +16,8 @@ interface Task {
   dueDate?: Date | null;
   reminder?: Date | null;
   isEditing?: boolean;
+  category?: string;
+  tags?: string[];
 }
 
 type DraggableTask = Task & {
@@ -32,6 +34,9 @@ function App() {
   const [newTask, setNewTask] = useState('');
   const [dueDate, setDueDate] = useState<Date | null>(null);
   const [reminderDate, setReminderDate] = useState<Date | null>(null);
+  const [categoryInput, setCategoryInput] = useState('');
+  const [tagsInput, setTagsInput] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   const addTask = () => {
     if ('Notification' in window && Notification.permission !== 'denied') {
@@ -48,7 +53,9 @@ function App() {
       text: newTask,
       completed: false,
       dueDate: dueDate,
-      reminder: reminderDate
+      reminder: reminderDate,
+      category: categoryInput || undefined,
+      tags: tagsInput ? tagsInput.split(',').map(t => t.trim()) : undefined
     };
     setTasks([...tasks, task]);
     setNewTask('');
@@ -146,6 +153,28 @@ function App() {
                   aria-label="Reminder"
                 />
               </DateTimeInput>
+              <select
+                value={categoryInput}
+                onChange={(e) => setCategoryInput(e.target.value)}
+                style={{ 
+                  padding: '0.5rem',
+                  borderRadius: '4px',
+                  border: `1px solid ${baseTheme.colors.border}`
+                }}
+              >
+                <option value="">Select Category</option>
+                <option value="Personal">Personal</option>
+                <option value="Work">Work</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Other">Other</option>
+              </select>
+              <Input
+                type="text"
+                value={tagsInput}
+                onChange={(e) => setTagsInput(e.target.value)}
+                placeholder="Tags (comma-separated)"
+                aria-label="Task tags"
+              />
             </InputGroup>
             <Button type="submit">Add Task</Button>
           </TaskForm>
@@ -154,7 +183,9 @@ function App() {
             <p>No tasks yet. Add your first task!</p>
           ) : (
             <TaskList>
-              {tasks.map(task => (
+              {tasks
+                .filter(task => selectedCategory === 'all' || task.category === selectedCategory)
+                .map(task => (
                 <TaskItem key={task.id} $completed={task.completed}>
                   <TaskContent 
                     $completed={task.completed} 
@@ -194,6 +225,14 @@ function App() {
                       <DateLabel>
                         Reminder: {new Date(task.reminder).toLocaleString()}
                       </DateLabel>
+                    )}
+                    {task.category && <CategoryBadge>{task.category}</CategoryBadge>}
+                    {task.tags && task.tags.length > 0 && (
+                      <TagContainer>
+                        {task.tags.map((tag, index) => (
+                          <Tag key={index}>#{tag}</Tag>
+                        ))}
+                      </TagContainer>
                     )}
                   </TaskContent>
                   <Button 

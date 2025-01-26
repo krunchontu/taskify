@@ -42,6 +42,29 @@ export const TaskContent = styled.div<{ $completed: boolean }>`
   }
 `;
 
+export const CategoryBadge = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  background: ${({ theme }) => theme.colors.secondary};
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: ${({ theme }) => theme.radii.full};
+  margin-left: ${({ theme }) => theme.spacing(2)};
+`;
+
+export const TagContainer = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing(1)};
+  margin-top: ${({ theme }) => theme.spacing(1)};
+`;
+
+export const Tag = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  background: ${({ theme }) => theme.colors.hover};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  padding: 0.25rem 0.5rem;
+  border-radius: ${({ theme }) => theme.radii.full};
+`;
+
 export const DateLabel = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   color: ${({ theme }) => theme.colors.textSecondary};
