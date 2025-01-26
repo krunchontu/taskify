@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import { ThemeProvider } from 'styled-components';
+import { 
+  GlobalStyle, theme, Container, TaskForm, InputGroup, DateTimeInput, 
+  Input, Button, TaskList, TaskItem, TaskContent, DateLabel, ThemeToggle 
+} from './styles';
 
 interface Task {
   id: number;
@@ -74,76 +78,86 @@ function App() {
     return () => clearInterval(interval);
   }, [tasks]);
 
-  return (
-    <div className="app">
-      <header className="app-header">
-        <h1>Taskify App</h1>
-      </header>
-      <main>
-        <div className="task-form">
-          <input
-            type="text"
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            placeholder="Task description..."
-            onKeyPress={(e) => e.key === 'Enter' && addTask()}
-          />
-          <div className="date-input">
-            <label>Due Date:</label>
-            <input
-              type="datetime-local"
-              value={dueDate?.toISOString().slice(0, 16) || ''}
-              onChange={(e) => setDueDate(new Date(e.target.value))}
-            />
-          </div>
-          <div className="date-input">
-            <label>Reminder:</label>
-            <input
-              type="datetime-local"
-              value={reminderDate?.toISOString().slice(0, 16) || ''}
-              onChange={(e) => setReminderDate(new Date(e.target.value))}
-            />
-          </div>
-          <button onClick={addTask}>Add Task</button>
-        </div>
+  const [darkMode, setDarkMode] = useState(false);
 
-        {tasks.length === 0 ? (
-          <p className="empty-state">No tasks yet. Add your first task!</p>
-        ) : (
-          <ul className="task-list">
-            {tasks.map(task => (
-              <li key={task.id} className={task.completed ? 'completed' : ''}>
-                <div className="task-content">
-                  <span onClick={() => toggleCompleted(task.id)}>
+  return (
+    <ThemeProvider theme={darkMode ? theme.dark : theme.light}>
+      <GlobalStyle />
+      <Container>
+        <ThemeToggle onClick={() => setDarkMode(!darkMode)}>
+          {darkMode ? '☀️' : '🌙'}
+        </ThemeToggle>
+        
+        <header>
+          <h1>Taskify</h1>
+        </header>
+
+        <main>
+          <TaskForm onSubmit={e => { e.preventDefault(); addTask(); }}>
+            <InputGroup>
+              <Input
+                type="text"
+                value={newTask}
+                onChange={(e) => setNewTask(e.target.value)}
+                placeholder="Add a new task..."
+                aria-label="New task"
+              />
+              <DateTimeInput>
+                <Input
+                  type="datetime-local"
+                  value={dueDate?.toISOString().slice(0, 16) || ''}
+                  onChange={(e) => setDueDate(new Date(e.target.value))}
+                  aria-label="Due date"
+                />
+              </DateTimeInput>
+              <DateTimeInput>
+                <Input
+                  type="datetime-local"
+                  value={reminderDate?.toISOString().slice(0, 16) || ''}
+                  onChange={(e) => setReminderDate(new Date(e.target.value))}
+                  aria-label="Reminder"
+                />
+              </DateTimeInput>
+            </InputGroup>
+            <Button type="submit">Add Task</Button>
+          </TaskForm>
+
+          {tasks.length === 0 ? (
+            <p>No tasks yet. Add your first task!</p>
+          ) : (
+            <TaskList>
+              {tasks.map(task => (
+                <TaskItem key={task.id} completed={task.completed}>
+                  <TaskContent 
+                    completed={task.completed} 
+                    onClick={() => toggleCompleted(task.id)}
+                  >
                     {task.text}
                     {task.dueDate && (
-                      <div className="task-date">
-                        <span className="date-label">Due:</span>
-                        {new Date(task.dueDate).toLocaleDateString()} 
-                        {new Date(task.dueDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </div>
+                      <DateLabel>
+                        Due: {new Date(task.dueDate).toLocaleString()}
+                      </DateLabel>
                     )}
                     {task.reminder && (
-                      <div className="task-date">
-                        <span className="date-label">Reminder:</span>
-                        {new Date(task.reminder).toLocaleDateString()}
-                        {new Date(task.reminder).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </div>
+                      <DateLabel>
+                        Reminder: {new Date(task.reminder).toLocaleString()}
+                      </DateLabel>
                     )}
-                  </span>
-                  <button 
-                    className="delete-btn"
+                  </TaskContent>
+                  <Button 
+                    variant="danger" 
                     onClick={() => deleteTask(task.id)}
+                    aria-label={`Delete task "${task.text}"`}
                   >
                     Delete
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </main>
-    </div>
+                  </Button>
+                </TaskItem>
+              ))}
+            </TaskList>
+          )}
+        </main>
+      </Container>
+    </ThemeProvider>
   );
 }
 
