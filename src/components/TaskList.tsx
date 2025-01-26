@@ -12,6 +12,7 @@ interface TaskListProps {
   deleteTask: (id: string) => void;
   expandedNotes: Set<string>;
   toggleNotes: (id: string) => void;
+  saveNotes: (id: string, newNotes: string) => void;
 }
 
 const TaskList: React.FC<TaskListProps> = ({
@@ -40,6 +41,7 @@ const TaskList: React.FC<TaskListProps> = ({
           deleteTask={deleteTask}
           expandedNotes={expandedNotes}
           toggleNotes={toggleNotes}
+          saveNotes={saveNotes}
         />
       ))}
   </StyledTaskList>

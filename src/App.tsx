@@ -177,6 +177,14 @@ function App() {
     return () => clearInterval(interval);
   }, [tasksRef]);
 
+  const saveNotes = useCallback((id: string, newNotes: string) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === id ? { ...task, notes: newNotes } : task
+      )
+    );
+  }, []);
+
   const [darkMode, setDarkMode] = useState(false);
 
   return (
@@ -256,6 +264,7 @@ function App() {
                   deleteTask={deleteTask}
                   expandedNotes={expandedNotes}
                   toggleNotes={toggleNotes}
+                  saveNotes={saveNotes}
                 />
               </div>
             )}

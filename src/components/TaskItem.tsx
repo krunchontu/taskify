@@ -23,6 +23,7 @@ interface TaskItemProps {
   deleteTask: (id: string) => void;
   expandedNotes: Set<string>;
   toggleNotes: (id: string) => void;
+  saveNotes: (id: string, newNotes: string) => void;
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({
@@ -33,6 +34,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   deleteTask,
   expandedNotes,
   toggleNotes,
+  saveNotes,
 }) => (
   <StyledTaskItem 
     $completed={task.completed}
@@ -128,7 +130,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
         <textarea
           value={task.notes || ''}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-            saveEdit(task.id, e.target.value);
+            saveNotes(task.id, e.target.value);
           }}
           placeholder="Add notes..."
           aria-label="Task notes"
