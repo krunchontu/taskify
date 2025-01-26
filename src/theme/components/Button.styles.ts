@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import { AppTheme } from '../theme';
 import { animationMixin, fadeIn } from '../animations';
 
 export const Button = styled.button<{
