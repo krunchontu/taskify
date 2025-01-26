@@ -24,10 +24,22 @@ export const TaskItem = styled.li<{ $completed: boolean }>`
 export const TaskContent = styled.div<{ $completed: boolean }>`
   flex: 1;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(2)};
   ${({ $completed }) => $completed && css`
     text-decoration: line-through;
     color: ${({ theme }) => theme.colors.completed};
   `}
+
+  input {
+    flex: 1;
+    padding: ${({ theme }) => theme.spacing(1)};
+    border: 1px solid ${({ theme }) => theme.colors.border};
+    border-radius: ${({ theme }) => theme.radii.sm};
+    background: ${({ theme }) => theme.colors.surface};
+    color: ${({ theme }) => theme.colors.text};
+  }
 `;
 
 export const DateLabel = styled.span`

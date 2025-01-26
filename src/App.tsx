@@ -15,6 +15,7 @@ interface Task {
   completed: boolean;
   dueDate?: Date | null;
   reminder?: Date | null;
+  isEditing?: boolean;
 }
 
 type DraggableTask = Task & {
@@ -62,6 +63,18 @@ function App() {
   const toggleCompleted = (id: number) => {
     setTasks(tasks.map(task => 
       task.id === id ? { ...task, completed: !task.completed } : task
+    ));
+  };
+
+  const startEditing = (id: number) => {
+    setTasks(tasks.map(task => 
+      task.id === id ? { ...task, isEditing: true } : { ...task, isEditing: false }
+    ));
+  };
+
+  const saveEdit = (id: number, newText: string) => {
+    setTasks(tasks.map(task => 
+      task.id === id ? { ...task, text: newText, isEditing: false } : task
     ));
   };
 
@@ -147,7 +160,31 @@ function App() {
                     $completed={task.completed} 
                     onClick={() => toggleCompleted(task.id)}
                   >
-                    {task.text}
+                    {task.isEditing ? (
+                      <Input
+                        type="text"
+                        value={task.text}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                          saveEdit(task.id, e.target.value)
+                        }
+                        onBlur={() => saveEdit(task.id, task.text)}
+                        autoFocus
+                      />
+                    ) : (
+                      <>
+                        {task.text}
+                        <Button 
+                          variant="secondary" 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            startEditing(task.id);
+                          }}
+                          aria-label={`Edit task "${task.text}"`}
+                        >
+                          Edit
+                        </Button>
+                      </>
+                    )}
                     {task.dueDate && (
                       <DateLabel>
                         Due: {new Date(task.dueDate).toLocaleString()}
