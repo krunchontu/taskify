@@ -1,5 +1,11 @@
 import React from 'react';
-import { TaskItem as StyledTaskItem, TaskContent, DateLabel, NotesButton, NotesContent } from '../theme/components/TaskCard.styles';
+import {
+  TaskItem as StyledTaskItem,
+  TaskContent,
+  DateLabel,
+  NotesButton,
+  NotesContent,
+} from '../theme/components/TaskCard.styles';
 import { PriorityBadge } from '../theme/components/PriorityBadge.styles';
 import { CategoryBadge } from '../theme/components/CategoryBadge.styles';
 import { RecurrenceBadge } from '../theme/components/RecurrenceBadge.styles';
@@ -26,18 +32,18 @@ const TaskItem: React.FC<TaskItemProps> = ({
   saveEdit,
   deleteTask,
   expandedNotes,
-  toggleNotes
+  toggleNotes,
 }) => (
   <StyledTaskItem $completed={task.completed}>
-    <TaskContent 
-      $completed={task.completed} 
+    <TaskContent
+      $completed={task.completed}
       onClick={() => toggleCompleted(task.id)}
     >
       {task.isEditing ? (
         <Input
           type="text"
           value={task.text}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             saveEdit(task.id, e.target.value)
           }
           onBlur={() => saveEdit(task.id, task.text)}
@@ -49,8 +55,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
           <PriorityBadge $priority={task.priority}>
             {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
           </PriorityBadge>
-          <Button 
-            variant="secondary" 
+          <Button
+            variant="secondary"
             onClick={(e) => {
               e.stopPropagation();
               startEditing(task.id);
@@ -61,15 +67,14 @@ const TaskItem: React.FC<TaskItemProps> = ({
           </Button>
           {task.recurrence && (
             <RecurrenceBadge $recurrence={task.recurrence}>
-              {task.recurrence.charAt(0).toUpperCase() + task.recurrence.slice(1)}
+              {task.recurrence.charAt(0).toUpperCase() +
+                task.recurrence.slice(1)}
             </RecurrenceBadge>
           )}
         </>
       )}
       {task.dueDate && (
-        <DateLabel>
-          Due: {new Date(task.dueDate).toLocaleString()}
-        </DateLabel>
+        <DateLabel>Due: {new Date(task.dueDate).toLocaleString()}</DateLabel>
       )}
       {task.reminder && (
         <DateLabel>
@@ -86,7 +91,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       )}
     </TaskContent>
 
-    <NotesButton 
+    <NotesButton
       onClick={(e: React.MouseEvent) => {
         e.stopPropagation();
         toggleNotes(task.id);
@@ -109,8 +114,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
       </NotesContent>
     )}
 
-    <Button 
-      variant="danger" 
+    <Button
+      variant="danger"
       onClick={() => deleteTask(task.id)}
       aria-label={`Delete task "${task.text}"`}
     >

@@ -14,26 +14,36 @@ export const RecurrenceBadge = styled.span<RecurrenceBadgeProps>`
   margin-left: 0.5rem;
   background-color: ${({ theme, $recurrence }) => {
     if (!$recurrence) return theme.colors.border;
-    switch($recurrence) {
-      case 'daily': return theme.colors.blue100;
-      case 'weekly': return theme.colors.purple100;
-      case 'monthly': return theme.colors.green100;
+    switch ($recurrence) {
+      case 'daily':
+        return theme.colors.blue100;
+      case 'weekly':
+        return theme.colors.purple100;
+      case 'monthly':
+        return theme.colors.green100;
     }
   }};
   color: ${({ theme, $recurrence }) => {
     if (!$recurrence) return theme.colors.text;
-    switch($recurrence) {
-      case 'daily': return theme.colors.blue600;
-      case 'weekly': return theme.colors.purple600;
-      case 'monthly': return theme.colors.green600;
+    switch ($recurrence) {
+      case 'daily':
+        return theme.colors.blue600;
+      case 'weekly':
+        return theme.colors.purple600;
+      case 'monthly':
+        return theme.colors.green600;
     }
   }};
-  border: 1px solid ${({ theme, $recurrence }) => {
-    if (!$recurrence) return theme.colors.border;
-    switch($recurrence) {
-      case 'daily': return theme.colors.blue300;
-      case 'weekly': return theme.colors.purple300;
-      case 'monthly': return theme.colors.green300;
-    }
-  }};
+  border: 1px solid
+    ${({ theme, $recurrence }) => {
+      if (!$recurrence) return theme.colors.border;
+      switch ($recurrence) {
+        case 'daily':
+          return theme.colors.blue300;
+        case 'weekly':
+          return theme.colors.purple300;
+        case 'monthly':
+          return theme.colors.green300;
+      }
+    }};
 `;

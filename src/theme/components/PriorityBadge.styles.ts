@@ -6,9 +6,8 @@ export const PriorityBadge = styled.div<{ $priority: string }>`
   border-radius: 12px;
   font-size: 0.875rem;
   font-weight: 500;
-  background-color: ${({ theme, $priority }) => 
+  background-color: ${({ theme, $priority }) =>
     theme.colors[`${$priority}PriorityBg`]};
-  color: ${({ theme, $priority }) => 
-    theme.colors[`${$priority}PriorityText`]};
+  color: ${({ theme, $priority }) => theme.colors[`${$priority}PriorityText`]};
   margin-left: 8px;
 `;

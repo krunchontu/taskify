@@ -8,17 +8,21 @@ export const TaskItem = styled.li<{ $completed: boolean }>`
   background: ${({ theme }) => theme.colors.surface};
   border-radius: ${({ theme }) => theme.radii.lg};
   box-shadow: ${({ theme }) => theme.shadows.sm};
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: ${({ theme }) => theme.shadows.md};
   }
 
-  ${({ $completed }) => $completed && css`
-    opacity: 0.7;
-    background: ${({ theme }) => theme.colors.hover};
-  `}
+  ${({ $completed }) =>
+    $completed &&
+    css`
+      opacity: 0.7;
+      background: ${({ theme }) => theme.colors.hover};
+    `}
 `;
 
 export const TaskContent = styled.div<{ $completed: boolean }>`
@@ -27,10 +31,12 @@ export const TaskContent = styled.div<{ $completed: boolean }>`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing(2)};
-  ${({ $completed }) => $completed && css`
-    text-decoration: line-through;
-    color: ${({ theme }) => theme.colors.completed};
-  `}
+  ${({ $completed }) =>
+    $completed &&
+    css`
+      text-decoration: line-through;
+      color: ${({ theme }) => theme.colors.completed};
+    `}
 
   input {
     flex: 1;
@@ -72,10 +78,11 @@ export const PriorityBadge = styled.span<{ $priority: string }>`
   border-radius: ${({ theme }) => theme.radii.full};
   margin-left: ${({ theme }) => theme.spacing(2)};
   background: ${({ theme, $priority }) =>
-    $priority === 'high' ? theme.colors.danger :
-    $priority === 'medium' ? theme.colors.secondary :
-    theme.colors.success
-  };
+    $priority === 'high'
+      ? theme.colors.danger
+      : $priority === 'medium'
+        ? theme.colors.secondary
+        : theme.colors.success};
 `;
 
 export const RecurrenceBadge = styled.span`
@@ -127,7 +134,8 @@ export const NotesContent = styled.div`
 export const DateLabel = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   color: ${({ theme }) => theme.colors.textSecondary};
-  padding: ${({ theme }) => theme.spacing(0.5)} ${({ theme }) => theme.spacing(1)};
+  padding: ${({ theme }) => theme.spacing(0.5)}
+    ${({ theme }) => theme.spacing(1)};
   background: ${({ theme }) => theme.colors.hover};
   border-radius: ${({ theme }) => theme.radii.md};
   display: inline-flex;

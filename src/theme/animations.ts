@@ -16,6 +16,9 @@ export const slideIn = keyframes`
   to { transform: translateX(0); }
 `;
 
-export const animationMixin = (animation: ReturnType<typeof keyframes>, duration = '0.3s') => css`
+export const animationMixin = (
+  animation: ReturnType<typeof keyframes>,
+  duration = '0.3s'
+) => css`
   animation: ${animation} ${duration} ease-in-out;
 `;

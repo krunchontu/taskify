@@ -65,7 +65,7 @@ export const baseTheme: AppTheme = {
     sm: '0.875rem',
     md: '1rem',
     lg: '1.125rem',
-    xl: '1.25rem'
+    xl: '1.25rem',
   },
   breakpoints: { sm: 480, md: 768, lg: 992, xl: 1200 },
   spacing: (multiplier = 1) => `${0.5 * multiplier}rem`,
@@ -75,7 +75,7 @@ export const baseTheme: AppTheme = {
     h2: '1.5rem',
     h3: '1.25rem',
     body: '1rem',
-    caption: '0.875rem'
+    caption: '0.875rem',
   },
   // Light theme defaults
   variant: 'light',
@@ -90,21 +90,21 @@ export const baseTheme: AppTheme = {
     border: '#dfe6e9',
     disabled: '#95a5a6',
     hover: '#f8f9fa',
-    completed: '#95a5a6'
+    completed: '#95a5a6',
   },
   shadows: {
     sm: '0 1px 3px rgba(0,0,0,0.12)',
     md: '0 4px 6px rgba(0,0,0,0.1)',
-    lg: '0 10px 15px rgba(0,0,0,0.1)'
+    lg: '0 10px 15px rgba(0,0,0,0.1)',
   },
   gradients: {
     primary: 'linear-gradient(135deg, #3498db 0%, #2980b9 100%)',
-    surface: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)'
+    surface: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
   },
   transitions: {
     default: 'all 0.2s ease',
-    easeInOut: 'all 0.2s ease-in-out'
-  }
+    easeInOut: 'all 0.2s ease-in-out',
+  },
 };
 
 export const darkThemeOverrides: Partial<AppTheme> = {
@@ -121,14 +121,14 @@ export const darkThemeOverrides: Partial<AppTheme> = {
     border: '#636e72',
     disabled: '#7f8c8d',
     hover: '#404040',
-    completed: '#7f8c8d'
+    completed: '#7f8c8d',
   },
   gradients: {
     ...baseTheme.gradients,
     surface: 'linear-gradient(145deg, #404040 0%, #2d3436 100%)',
-    primary: 'linear-gradient(135deg, #2980b9 0%, #1f618d 100%)'
+    primary: 'linear-gradient(135deg, #2980b9 0%, #1f618d 100%)',
   },
   transitions: {
-    ...baseTheme.transitions
-  }
+    ...baseTheme.transitions,
+  },
 };

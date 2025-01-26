@@ -22,12 +22,15 @@ const TaskList: React.FC<TaskListProps> = ({
   saveEdit,
   deleteTask,
   expandedNotes,
-  toggleNotes
+  toggleNotes,
 }) => (
   <StyledTaskList>
     {tasks
-      .filter(task => selectedCategory === 'all' || task.category === selectedCategory)
-      .map(task => (
+      .filter(
+        (task) =>
+          selectedCategory === 'all' || task.category === selectedCategory
+      )
+      .map((task) => (
         <TaskItem
           key={task.id}
           task={task}

@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 export const InputGroup = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing(1)};
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
     flex-direction: column;
   }
@@ -23,7 +23,7 @@ export const Input = styled.input`
   font-size: 1rem;
   background: transparent;
   color: ${({ theme }) => theme.colors.text};
-  
+
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.colors.primary};

@@ -44,7 +44,7 @@ export const TaskForm = styled.form`
   gap: 1rem;
   margin-bottom: 2rem;
   grid-template-columns: 1fr auto;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
@@ -53,7 +53,7 @@ export const TaskForm = styled.form`
 export const InputGroup = styled.div`
   display: flex;
   gap: 1rem;
-  
+
   @media (max-width: 480px) {
     flex-direction: column;
   }
@@ -73,7 +73,7 @@ export const Input = styled.input`
   font-size: 1rem;
   background: transparent;
   color: ${({ theme }) => theme.text};
-  
+
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.primary};
@@ -87,11 +87,11 @@ export const Button = styled.button<{ variant?: 'primary' | 'danger' }>`
   cursor: pointer;
   font-weight: 500;
   transition: filter 0.2s;
-  
+
   ${({ variant = 'primary', theme }) => css`
     background-color: ${theme[variant]};
     color: white;
-    
+
     &:hover {
       filter: brightness(0.9);
     }
@@ -112,7 +112,7 @@ export const TaskItem = styled.li<{ completed: boolean }>`
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: ${({ theme, completed }) => 
+  background: ${({ theme, completed }) =>
     completed ? theme.hover : 'transparent'};
   border: 2px solid ${({ theme }) => theme.border};
   border-radius: 8px;
@@ -126,10 +126,12 @@ export const TaskItem = styled.li<{ completed: boolean }>`
 export const TaskContent = styled.div<{ completed: boolean }>`
   flex: 1;
   cursor: pointer;
-  ${({ completed }) => completed && css`
-    text-decoration: line-through;
-    color: ${({ theme }) => theme.completed};
-  `}
+  ${({ completed }) =>
+    completed &&
+    css`
+      text-decoration: line-through;
+      color: ${({ theme }) => theme.completed};
+    `}
 `;
 
 export const DateLabel = styled.span`

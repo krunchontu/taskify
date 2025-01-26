@@ -1,6 +1,10 @@
 import React from 'react';
 import { TaskForm as StyledTaskForm } from '../theme/components/Form.styles';
-import { InputGroup, DateTimeInput, Input } from '../theme/components/Input.styles';
+import {
+  InputGroup,
+  DateTimeInput,
+  Input,
+} from '../theme/components/Input.styles';
 import { Button } from '../theme/components/Button.styles';
 import { Task } from '../types';
 import { baseTheme } from '../theme/theme';
@@ -17,9 +21,13 @@ interface TaskFormProps {
   tagsInput: string;
   setTagsInput: React.Dispatch<React.SetStateAction<string>>;
   priorityInput: 'low' | 'medium' | 'high';
-  setPriorityInput: React.Dispatch<React.SetStateAction<'low' | 'medium' | 'high'>>;
+  setPriorityInput: React.Dispatch<
+    React.SetStateAction<'low' | 'medium' | 'high'>
+  >;
   recurrenceInput?: 'daily' | 'weekly' | 'monthly';
-  setRecurrenceInput: React.Dispatch<React.SetStateAction<'daily' | 'weekly' | 'monthly' | undefined>>;
+  setRecurrenceInput: React.Dispatch<
+    React.SetStateAction<'daily' | 'weekly' | 'monthly' | undefined>
+  >;
   addTask: () => void;
 }
 
@@ -38,17 +46,21 @@ const TaskForm: React.FC<TaskFormProps> = ({
   setPriorityInput,
   recurrenceInput,
   setRecurrenceInput,
-  addTask
+  addTask,
 }) => (
-  <StyledTaskForm onSubmit={(e: React.FormEvent) => { 
-    e.preventDefault(); 
-    addTask(); 
-  }}>
+  <StyledTaskForm
+    onSubmit={(e: React.FormEvent) => {
+      e.preventDefault();
+      addTask();
+    }}
+  >
     <InputGroup>
       <Input
         type="text"
         value={newTask}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTask(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setNewTask(e.target.value)
+        }
         placeholder="Add a new task..."
         aria-label="New task"
       />
@@ -56,7 +68,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
         <Input
           type="datetime-local"
           value={dueDate?.toISOString().slice(0, 16) || ''}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDueDate(new Date(e.target.value))}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setDueDate(new Date(e.target.value))
+          }
           aria-label="Due date"
         />
       </DateTimeInput>
@@ -64,17 +78,19 @@ const TaskForm: React.FC<TaskFormProps> = ({
         <Input
           type="datetime-local"
           value={reminderDate?.toISOString().slice(0, 16) || ''}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setReminderDate(new Date(e.target.value))}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setReminderDate(new Date(e.target.value))
+          }
           aria-label="Reminder"
         />
       </DateTimeInput>
       <select
         value={categoryInput}
         onChange={(e) => setCategoryInput(e.target.value)}
-        style={{ 
+        style={{
           padding: '0.5rem',
           borderRadius: '4px',
-          border: `1px solid ${baseTheme.colors.border}`
+          border: `1px solid ${baseTheme.colors.border}`,
         }}
       >
         <option value="">Select Category</option>
@@ -85,11 +101,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
       </select>
       <select
         value={recurrenceInput || ''}
-        onChange={(e) => setRecurrenceInput(e.target.value as Task['recurrence'] || undefined)}
-        style={{ 
+        onChange={(e) =>
+          setRecurrenceInput(
+            (e.target.value as Task['recurrence']) || undefined
+          )
+        }
+        style={{
           padding: '0.5rem',
           borderRadius: '4px',
-          border: `1px solid ${baseTheme.colors.border}`
+          border: `1px solid ${baseTheme.colors.border}`,
         }}
       >
         <option value="">No Recurrence</option>
@@ -107,10 +127,10 @@ const TaskForm: React.FC<TaskFormProps> = ({
       <select
         value={priorityInput}
         onChange={(e) => setPriorityInput(e.target.value as Task['priority'])}
-        style={{ 
+        style={{
           padding: '0.5rem',
           borderRadius: '4px',
-          border: `1px solid ${baseTheme.colors.border}`
+          border: `1px solid ${baseTheme.colors.border}`,
         }}
       >
         <option value="low">Low Priority</option>
