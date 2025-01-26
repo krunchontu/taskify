@@ -192,8 +192,8 @@ function App() {
     <ThemeProvider theme={darkMode ? { ...baseTheme, ...darkThemeOverrides } : baseTheme}>
       <GlobalStyles theme={darkMode ? { ...baseTheme, ...darkThemeOverrides } : baseTheme} />
       <ErrorBoundary 
-        FallbackComponent={ErrorFallback}
-        onError={(error, info) => {
+        FallbackComponent={ErrorFallback} 
+        onError={(error: Error, info: { componentStack: string }) => {
           console.error('Taskify Error:', error, info);
         }}
       >
@@ -282,3 +282,4 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
 }
 
 export default App;
+npm install react-error-boundary @types/react-error-boundary
