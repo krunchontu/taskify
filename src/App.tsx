@@ -81,24 +81,6 @@ function App() {
     setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
   }, []);
 
-  const toggleCompleted = useCallback((id: string) => {
-    setTasks((tasks) =>
-      tasks.flatMap((task) => {
-        if (task.id === id) {
-          const newCompleted = !task.completed;
-          const updatedTask = { ...task, completed: newCompleted };
-
-          if (newCompleted && updatedTask.recurrence) {
-            const newTask = createRecurringTask(updatedTask);
-            return [updatedTask, newTask];
-          }
-          return updatedTask;
-        }
-        return task;
-      })
-    );
-  }, [createRecurringTask]);
-
   const createRecurringTask = useCallback((task: Task): Task => {
     const baseDate = task.dueDate || new Date();
     const nextDueDate = new Date(baseDate);
@@ -130,6 +112,24 @@ function App() {
         : undefined,
     };
   }, []);
+
+  const toggleCompleted = useCallback((id: string) => {
+    setTasks((tasks) =>
+      tasks.flatMap((task) => {
+        if (task.id === id) {
+          const newCompleted = !task.completed;
+          const updatedTask = { ...task, completed: newCompleted };
+
+          if (newCompleted && updatedTask.recurrence) {
+            const newTask = createRecurringTask(updatedTask);
+            return [updatedTask, newTask];
+          }
+          return updatedTask;
+        }
+        return task;
+      })
+    );
+  }, [createRecurringTask]);
 
   const startEditing = useCallback((id: string) => {
     setTasks(
