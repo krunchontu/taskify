@@ -15,7 +15,7 @@ function App() {
   const [expandedNotes, setExpandedNotes] = useState<Set<string>>(new Set());
   const tasksRef = useRef<Task[]>([]);
 
-  const toggleNotes = (taskId: number) => {
+  const toggleNotes = (taskId: string) => {
     setExpandedNotes((prev) => {
       const next = new Set(prev);
       next.has(taskId) ? next.delete(taskId) : next.add(taskId);

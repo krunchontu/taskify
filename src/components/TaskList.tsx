@@ -6,12 +6,12 @@ import { Task } from '../types';
 interface TaskListProps {
   tasks: Task[];
   selectedCategory: string;
-  toggleCompleted: (id: number) => void;
-  startEditing: (id: number) => void;
-  saveEdit: (id: number, newText: string) => void;
-  deleteTask: (id: number) => void;
-  expandedNotes: Set<number>;
-  toggleNotes: (id: number) => void;
+  toggleCompleted: (id: string) => void;
+  startEditing: (id: string) => void;
+  saveEdit: (id: string, newText: string) => void;
+  deleteTask: (id: string) => void;
+  expandedNotes: Set<string>;
+  toggleNotes: (id: string) => void;
 }
 
 const TaskList: React.FC<TaskListProps> = ({
