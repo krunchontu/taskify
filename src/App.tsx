@@ -7,6 +7,7 @@ import { TaskForm } from './theme/components/Form.styles';
 import { InputGroup, DateTimeInput, Input } from './theme/components/Input.styles';
 import { Button } from './theme/components/Button.styles';
 import { CategoryBadge } from './theme/components/CategoryBadge.styles';
+import { PriorityBadge } from './theme/components/PriorityBadge.styles';
 import { TagContainer } from './theme/components/TagContainer.styles';
 import { Tag } from './theme/components/Tag.styles';
 import { TaskItem, TaskContent, DateLabel } from './theme/components/TaskCard.styles';
