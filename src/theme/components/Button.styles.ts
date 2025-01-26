@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { animationMixin, fadeIn } from '../animations';
 
 export const Button = styled.button<{
