@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
-import { GlobalStyles } from '../theme/GlobalStyles';
-import { baseTheme, darkThemeOverrides } from '../theme/theme';
-import { Container, TaskList } from '../theme/components/Layout.styles';
-import { TaskForm } from '../theme/components/Form.styles';
-import { InputGroup, DateTimeInput, Input } from '../theme/components/Input.styles';
-import { Button } from '../theme/components/Button.styles';
-import { TaskItem, TaskContent, DateLabel } from '../theme/components/TaskCard.styles';
-import { ThemeToggle } from '../theme/components/ThemeToggle.styles';
+import { GlobalStyles } from './theme/GlobalStyles';
+import { baseTheme, darkThemeOverrides } from './theme/theme';
+import { Container, TaskList } from './theme/components/Layout.styles';
+import { TaskForm } from './theme/components/Form.styles';
+import { InputGroup, DateTimeInput, Input } from './theme/components/Input.styles';
+import { Button } from './theme/components/Button.styles';
+import { TaskItem, TaskContent, DateLabel } from './theme/components/TaskCard.styles';
+import { ThemeToggle } from './theme/components/ThemeToggle.styles';
 
 interface Task {
   id: number;
@@ -97,12 +97,15 @@ function App() {
         </header>
 
         <main>
-          <TaskForm onSubmit={e => { e.preventDefault(); addTask(); }}>
+          <TaskForm onSubmit={(e: React.FormEvent) => { 
+            e.preventDefault(); 
+            addTask(); 
+          }}>
             <InputGroup>
               <Input
                 type="text"
                 value={newTask}
-                onChange={(e) => setNewTask(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTask(e.target.value)}
                 placeholder="Add a new task..."
                 aria-label="New task"
               />
@@ -110,7 +113,7 @@ function App() {
                 <Input
                   type="datetime-local"
                   value={dueDate?.toISOString().slice(0, 16) || ''}
-                  onChange={(e) => setDueDate(new Date(e.target.value))}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDueDate(new Date(e.target.value))}
                   aria-label="Due date"
                 />
               </DateTimeInput>
@@ -118,7 +121,7 @@ function App() {
                 <Input
                   type="datetime-local"
                   value={reminderDate?.toISOString().slice(0, 16) || ''}
-                  onChange={(e) => setReminderDate(new Date(e.target.value))}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setReminderDate(new Date(e.target.value))}
                   aria-label="Reminder"
                 />
               </DateTimeInput>
