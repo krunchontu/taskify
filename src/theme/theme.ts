@@ -14,6 +14,8 @@ export interface AppTheme extends DefaultTheme {
     text: string;
     border: string;
     disabled: string;
+    hover: string;
+    completed: string;
   };
   spacing: (multiplier?: number) => string;
   breakpoints: {
@@ -68,7 +70,9 @@ export const baseTheme: AppTheme = {
     surface: '#ffffff',
     text: '#2c3e50',
     border: '#dfe6e9',
-    disabled: '#95a5a6'
+    disabled: '#95a5a6',
+    hover: '#f8f9fa',
+    completed: '#95a5a6'
   },
   shadows: {
     sm: '0 1px 3px rgba(0,0,0,0.12)',

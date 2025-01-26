@@ -3,7 +3,7 @@ import { AppTheme } from '../theme';
 import { animationMixin, fadeIn } from '../animations';
 
 export const Button = styled.button<{ 
-  variant?: 'primary' | 'danger' | 'text'
+  variant?: 'primary' | 'danger' | 'text' | 'success'
   $isLoading?: boolean
 }>`
   ${({ theme, variant = 'primary', $isLoading }) => css`
