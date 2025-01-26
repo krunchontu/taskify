@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
-import { 
-  GlobalStyle, theme, Container, TaskForm, InputGroup, DateTimeInput, 
-  Input, Button, TaskList, TaskItem, TaskContent, DateLabel, ThemeToggle 
-} from './styles';
+import { GlobalStyles } from '../theme/GlobalStyles';
+import { baseTheme, darkThemeOverrides } from '../theme/theme';
+import { Container, TaskList } from '../theme/components/Layout.styles';
+import { TaskForm } from '../theme/components/Form.styles';
+import { InputGroup, DateTimeInput, Input } from '../theme/components/Input.styles';
+import { Button } from '../theme/components/Button.styles';
+import { TaskItem, TaskContent, DateLabel } from '../theme/components/TaskCard.styles';
+import { ThemeToggle } from '../theme/components/ThemeToggle.styles';
 
 interface Task {
   id: number;
@@ -81,8 +85,8 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <ThemeProvider theme={darkMode ? theme.dark : theme.light}>
-      <GlobalStyle />
+    <ThemeProvider theme={darkMode ? { ...baseTheme, ...darkThemeOverrides } : baseTheme}>
+      <GlobalStyles />
       <Container>
         <ThemeToggle onClick={() => setDarkMode(!darkMode)}>
           {darkMode ? '☀️' : '🌙'}
