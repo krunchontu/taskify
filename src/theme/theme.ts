@@ -1,4 +1,3 @@
-import { DefaultTheme } from 'styled-components';
 
 export type ThemeVariant = 'light' | 'dark';
 

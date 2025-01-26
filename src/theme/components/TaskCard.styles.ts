@@ -12,9 +12,9 @@ export const TaskItem = styled.li<{ $completed: boolean }>`
     box-shadow: ${({ theme }) => theme.shadows.md};
   }
 
-  ${({ $completed }) => $completed && `
+  ${({ $completed, theme }) => $completed && css`
     opacity: 0.7;
-    background: ${({ theme }) => theme.colors.hover};
+    background: ${theme.colors.hover};
   `}
 `;
 
@@ -147,7 +147,7 @@ export const RecurrenceBadge = styled.span`
 export const NotesButton = styled.button`
   background: none;
   border: none;
-  color: ${({ theme }) => theme.colors.textSecondary};
+  color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
   padding: ${({ theme }) => theme.spacing(1)};
   transition: color 0.2s;
@@ -173,7 +173,7 @@ export const NotesContent = styled.div`
 
 export const DateLabel = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.sm};
-  color: ${({ theme }) => theme.colors.textSecondary};
+  color: ${({ theme }) => theme.colors.text};
   padding: ${({ theme }) => theme.spacing(0.5)}
     ${({ theme }) => theme.spacing(1)};
   background: ${({ theme }) => theme.colors.hover};
