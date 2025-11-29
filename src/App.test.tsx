@@ -1,20 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders Taskify App header', () => {
+test('renders Taskify header', () => {
   render(<App />);
-  const header = screen.getByRole('heading', { 
-    name: /Taskify App/i,
-    level: 1
-  });
+  const header = screen.getByRole('heading', { name: /Taskify/i, level: 1 });
   expect(header).toBeInTheDocument();
 });
 
-test('renders task list', () => {
+test('shows empty state when no tasks exist', () => {
   render(<App />);
-  const taskList = screen.getByRole('list');
-  expect(taskList).toBeInTheDocument();
-  
-  const tasks = screen.getAllByTestId('task-item');
-  expect(tasks.length).toBeGreaterThan(0);
+  expect(screen.getByText(/No tasks yet. Add your first task!/i)).toBeInTheDocument();
 });

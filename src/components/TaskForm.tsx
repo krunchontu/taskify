@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TaskForm as StyledTaskForm } from '../theme/components/Form.styles';
 import {
   InputGroup,
@@ -7,6 +7,7 @@ import {
 } from '../theme/components/Input.styles';
 import { Button } from '../theme/components/Button.styles';
 import { Task } from '../types';
+import { NotificationStatus } from '../hooks/useTasks';
 import { baseTheme } from '../theme/theme';
 
 interface TaskFormProps {
@@ -28,6 +29,8 @@ interface TaskFormProps {
   setRecurrenceInput: React.Dispatch<
     React.SetStateAction<'daily' | 'weekly' | 'monthly' | undefined>
   >;
+  notificationStatus: NotificationStatus;
+  requestNotificationPermission: () => Promise<NotificationStatus>;
   addTask: () => void;
 }
 
@@ -46,8 +49,22 @@ const TaskForm: React.FC<TaskFormProps> = ({
   setPriorityInput,
   recurrenceInput,
   setRecurrenceInput,
+  notificationStatus,
+  requestNotificationPermission,
   addTask,
-}) => (
+}) => {
+  const toDate = useMemo(() => ({
+    fromString: (value: string) => {
+      if (!value) return null;
+
+      const parsed = new Date(value);
+      if (Number.isNaN(parsed.getTime())) return null;
+
+      return parsed;
+    },
+  }), []);
+
+  return (
   <StyledTaskForm
     onSubmit={(e: React.FormEvent) => {
       e.preventDefault();
@@ -68,9 +85,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
         <Input
           type="datetime-local"
           value={dueDate?.toISOString().slice(0, 16) || ''}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setDueDate(new Date(e.target.value))
-          }
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setDueDate(toDate.fromString(e.target.value));
+          }}
           aria-label="Due date"
         />
       </DateTimeInput>
@@ -78,12 +95,30 @@ const TaskForm: React.FC<TaskFormProps> = ({
         <Input
           type="datetime-local"
           value={reminderDate?.toISOString().slice(0, 16) || ''}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setReminderDate(new Date(e.target.value))
-          }
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setReminderDate(toDate.fromString(e.target.value));
+          }}
           aria-label="Reminder"
         />
       </DateTimeInput>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+        <small>
+          {notificationStatus === 'unsupported' && 'Notifications are unavailable in this browser.'}
+          {notificationStatus === 'denied' && 'Notifications are blocked; reminders will stay on the page.'}
+          {notificationStatus === 'prompt' && 'Enable notifications to receive reminder alerts.'}
+          {notificationStatus === 'granted' && 'Reminder alerts will appear as desktop notifications.'}
+        </small>
+        {(notificationStatus === 'prompt' || notificationStatus === 'denied') && (
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={requestNotificationPermission}
+            style={{ alignSelf: 'flex-start' }}
+          >
+            Enable reminders
+          </Button>
+        )}
+      </div>
       <select
         value={categoryInput}
         onChange={(e) => setCategoryInput(e.target.value)}
@@ -140,6 +175,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
     </InputGroup>
     <Button type="submit">Add Task</Button>
   </StyledTaskForm>
-);
+  );
+};
 
 export default TaskForm;

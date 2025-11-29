@@ -30,10 +30,13 @@ function App() {
     setTagsInput,
     setPriorityInput,
     setRecurrenceInput,
+    notificationStatus,
+    requestNotificationPermission,
     addTask,
     deleteTask,
     toggleCompleted,
     startEditing,
+    cancelEditing,
     saveEdit,
     toggleNotes,
     saveNotes
@@ -81,6 +84,8 @@ function App() {
               setPriorityInput={setPriorityInput}
               recurrenceInput={recurrenceInput}
               setRecurrenceInput={setRecurrenceInput}
+              notificationStatus={notificationStatus}
+              requestNotificationPermission={requestNotificationPermission}
               addTask={addTask}
             />
 
@@ -116,6 +121,7 @@ function App() {
                   selectedCategory={selectedCategory}
                   toggleCompleted={toggleCompleted}
                   startEditing={startEditing}
+                  cancelEditing={cancelEditing}
                   saveEdit={saveEdit}
                   deleteTask={deleteTask}
                   expandedNotes={expandedNotes}
