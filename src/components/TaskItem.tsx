@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiEdit, FiTrash, FiCheckCircle, FiCircle, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { MdAccessTime, MdNotifications } from 'react-icons/md';
 import {
@@ -20,6 +20,7 @@ interface TaskItemProps {
   task: Task;
   toggleCompleted: (id: string) => void;
   startEditing: (id: string) => void;
+  cancelEditing: (id: string) => void;
   saveEdit: (_id: string, _newText: string) => void;
   deleteTask: (id: string) => void;
   expandedNotes: Set<string>;
@@ -31,6 +32,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   task,
   toggleCompleted,
   startEditing,
+  cancelEditing,
   saveEdit,
   deleteTask,
   expandedNotes,
@@ -38,6 +40,12 @@ const TaskItem: React.FC<TaskItemProps> = ({
   saveNotes,
 }) => {
   const { tags = [] } = task;
+  const [draftText, setDraftText] = useState(task.text);
+
+  useEffect(() => {
+    setDraftText(task.text);
+  }, [task.text, task.isEditing]);
+
   return (
   <StyledTaskItem $completed={task.completed}>
     <TaskContent $completed={task.completed}>
@@ -54,15 +62,21 @@ const TaskItem: React.FC<TaskItemProps> = ({
         <div className="edit-container">
           <Input
             type="text"
-            value={task.text}
-            onChange={(e) => saveEdit(task.id, e.target.value)}
+            value={draftText}
+            onChange={(e) => setDraftText(e.target.value)}
             autoFocus
           />
           <div className="edit-actions">
-            <Button variant="success" onClick={() => saveEdit(task.id, task.text)}>
+            <Button variant="success" onClick={() => saveEdit(task.id, draftText)}>
               Save
             </Button>
-            <Button variant="secondary" onClick={() => saveEdit(task.id, task.text)}>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setDraftText(task.text);
+                cancelEditing(task.id);
+              }}
+            >
               Cancel
             </Button>
           </div>

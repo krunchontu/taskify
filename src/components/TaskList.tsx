@@ -8,6 +8,7 @@ interface TaskListProps {
   selectedCategory: string;
   toggleCompleted: (id: string) => void;
   startEditing: (id: string) => void;
+  cancelEditing: (id: string) => void;
   saveEdit: (id: string, newText: string) => void;
   deleteTask: (id: string) => void;
   expandedNotes: Set<string>;
@@ -20,6 +21,7 @@ const TaskList: React.FC<TaskListProps> = ({
   selectedCategory,
   toggleCompleted,
   startEditing,
+  cancelEditing,
   saveEdit,
   deleteTask,
   expandedNotes,
@@ -38,6 +40,7 @@ const TaskList: React.FC<TaskListProps> = ({
           task={task}
           toggleCompleted={toggleCompleted}
           startEditing={startEditing}
+          cancelEditing={cancelEditing}
           saveEdit={saveEdit}
           deleteTask={deleteTask}
           expandedNotes={expandedNotes}

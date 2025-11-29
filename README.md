@@ -10,14 +10,14 @@ A modern task management application with intuitive UI and essential productivit
 
 ## Features ✨
 
-- 🌓 Dark/Light mode toggle
-- 📅 Due dates with visual indicators
-- 🔔 Desktop notifications for reminders
-- 💾 Local storage persistence
-- 📱 Responsive design
-- ✅ Task completion toggling
-- 🗑️ Simple task deletion
-- 🎨 Styled-components theming
+- 🌓 Dark/Light mode toggle with Styled Components theming
+- ✅ Task creation, completion toggle, and deletion
+- 📅 Due dates and reminder times with permission-aware desktop notifications and invalid-date guardrails
+- ♻️ Recurring tasks (daily/weekly/monthly) spawn the next instance after completion
+- 🏷️ Optional categories, tags, and notes to add context without clutter
+- ⚡ Local storage persistence with corruption recovery and a 1MB guardrail
+- 🛡️ Error boundary fallback plus accessibility touches (status text for empty list, labeled inputs)
+- 📱 Responsive design for desktop and mobile
 
 ## Installation 🛠️
 
@@ -56,6 +56,11 @@ A modern task management application with intuitive UI and essential productivit
 - [TypeScript](https://www.typescriptlang.org/)
 - [styled-components](https://styled-components.com/)
 - [HTML5 Notifications API](https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API)
+
+## Product Docs 📚
+
+- [MVP & Blue Ocean Strategy](docs/mvp-blue-ocean.md)
+- [Product Review (Good, Bad, Ugly)](docs/product-review.md)
 
 ## License 📄
 
