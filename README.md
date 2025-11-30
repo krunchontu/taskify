@@ -12,7 +12,7 @@ A modern task management application with intuitive UI and essential productivit
 
 - 🌓 Dark/Light mode toggle with Styled Components theming
 - ✅ Task creation, completion toggle, and deletion
-- 📅 Due dates and reminder times with permission-aware desktop notifications and invalid-date guardrails
+- 📅 Due dates and reminder timestamps with permission-aware desktop notifications, snooze/dismiss actions, and inline validation
 - ♻️ Recurring tasks (daily/weekly/monthly) spawn the next instance after completion
 - 🏷️ Optional categories, tags, and notes to add context without clutter
 - ⚡ Local storage persistence with corruption recovery and a 1MB guardrail

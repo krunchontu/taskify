@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Task } from '../types';
 
@@ -6,6 +6,12 @@ import { Task } from '../types';
 const STORAGE_KEY = 'tasks_v1';
 const MAX_STORAGE_SIZE = 1_048_576; // 1MB
 export type NotificationStatus = 'unsupported' | 'prompt' | 'granted' | 'denied';
+
+export type ReminderAlert = {
+  id: string;
+  text: string;
+  reminderTime: Date;
+};
 
 export const useTasks = () => {
   const [tasks, setTasks] = useState<Task[]>(() => {
@@ -49,20 +55,86 @@ export const useTasks = () => {
     }
     return [];
   });
-  const tasksRef = useRef<Task[]>([]);
   const [expandedNotes, setExpandedNotes] = useState<Set<string>>(new Set());
   const [newTask, setNewTask] = useState('');
   const [dueDate, setDueDate] = useState<Date | null>(null);
   const [reminderDate, setReminderDate] = useState<Date | null>(null);
+  const [dueDateInput, setDueDateInput] = useState('');
+  const [reminderDateInput, setReminderDateInput] = useState('');
+  const [dueDateError, setDueDateError] = useState<string | null>(null);
+  const [reminderError, setReminderError] = useState<string | null>(null);
   const [categoryInput, setCategoryInput] = useState('');
   const [tagsInput, setTagsInput] = useState('');
   const [priorityInput, setPriorityInput] = useState<Task['priority']>('medium');
   const [recurrenceInput, setRecurrenceInput] = useState<Task['recurrence']>();
   const [notificationStatus, setNotificationStatus] = useState<NotificationStatus>('prompt');
+  const [activeReminders, setActiveReminders] = useState<ReminderAlert[]>([]);
 
-  useEffect(() => {
-    tasksRef.current = tasks;
-  }, [tasks]);
+  const parseDate = useCallback((value: string) => {
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return null;
+
+    return parsed;
+  }, []);
+
+  const handleDueDateChange = useCallback(
+    (value: string) => {
+      setDueDateInput(value);
+
+      if (!value) {
+        setDueDate(null);
+        setDueDateError(null);
+        setReminderError(null);
+        return;
+      }
+
+      const parsed = parseDate(value);
+      if (!parsed) {
+        setDueDate(null);
+        setDueDateError('Enter a valid due date and time.');
+        return;
+      }
+
+      setDueDate(parsed);
+      setDueDateError(null);
+
+      if (reminderDate && reminderDate > parsed) {
+        setReminderError('Reminder must be on or before the due date.');
+      } else if (reminderError && reminderDate && reminderDate <= parsed) {
+        setReminderError(null);
+      }
+    },
+    [parseDate, reminderDate, reminderError]
+  );
+
+  const handleReminderChange = useCallback(
+    (value: string) => {
+      setReminderDateInput(value);
+
+      if (!value) {
+        setReminderDate(null);
+        setReminderError(null);
+        return;
+      }
+
+      const parsed = parseDate(value);
+      if (!parsed) {
+        setReminderDate(null);
+        setReminderError('Enter a valid reminder date and time.');
+        return;
+      }
+
+      if (dueDate && parsed > dueDate) {
+        setReminderDate(parsed);
+        setReminderError('Reminder must be on or before the due date.');
+        return;
+      }
+
+      setReminderDate(parsed);
+      setReminderError(null);
+    },
+    [dueDate, parseDate]
+  );
 
   // Add persistence effect
   useEffect(() => {
@@ -127,6 +199,12 @@ export const useTasks = () => {
 
   const addTask = useCallback(() => {
     if (newTask.trim() === '') return;
+    if (dueDateError || reminderError) return;
+
+    if (reminderDate && dueDate && reminderDate > dueDate) {
+      setReminderError('Reminder must be on or before the due date.');
+      return;
+    }
 
     if (reminderDate) {
       void requestNotificationPermission();
@@ -148,8 +226,23 @@ export const useTasks = () => {
     setNewTask('');
     setDueDate(null);
     setReminderDate(null);
+    setDueDateInput('');
+    setReminderDateInput('');
+    setDueDateError(null);
+    setReminderError(null);
     setRecurrenceInput(undefined);
-  }, [newTask, dueDate, reminderDate, priorityInput, categoryInput, tagsInput, recurrenceInput, requestNotificationPermission]);
+  }, [
+    newTask,
+    dueDate,
+    reminderDate,
+    priorityInput,
+    categoryInput,
+    tagsInput,
+    recurrenceInput,
+    requestNotificationPermission,
+    dueDateError,
+    reminderError,
+  ]);
 
   const deleteTask = useCallback((id: string) => {
     setTasks(prev => prev.filter(task => task.id !== id));
@@ -226,13 +319,59 @@ export const useTasks = () => {
   }, []);
 
   const saveNotes = useCallback((id: string, notes: string) => {
-    setTasks(prev => prev.map(task => 
+    setTasks(prev => prev.map(task =>
       task.id === id ? {...task, notes} : task
     ));
   }, []);
 
+  const enqueueReminderAlert = useCallback((task: Task) => {
+    if (!task.reminder) return;
+
+    setActiveReminders((prev) => {
+      if (prev.some((alert) => alert.id === task.id)) return prev;
+
+      return [
+        ...prev,
+        {
+          id: task.id,
+          text: task.text,
+          reminderTime: new Date(task.reminder),
+        },
+      ];
+    });
+  }, []);
+
+  const dismissReminder = useCallback((id: string) => {
+    setActiveReminders((prev) => prev.filter((alert) => alert.id !== id));
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id
+          ? {
+            ...task,
+            reminder: undefined,
+          }
+          : task
+      )
+    );
+  }, []);
+
+  const snoozeReminder = useCallback((id: string, minutes = 5) => {
+    const snoozeUntil = new Date(Date.now() + minutes * 60 * 1000);
+
+    setActiveReminders((prev) => prev.filter((alert) => alert.id !== id));
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id
+          ? {
+            ...task,
+            reminder: snoozeUntil,
+          }
+          : task
+      )
+    );
+  }, []);
+
   useEffect(() => {
-    if (notificationStatus !== 'granted') return;
     if (!tasks.some((task) => task.reminder)) return;
 
     const interval = setInterval(() => {
@@ -247,11 +386,15 @@ export const useTasks = () => {
         if (Number.isNaN(reminderTime)) return { ...task, reminder: undefined };
 
         if (Date.now() >= reminderTime) {
-          try {
-            new Notification(`Reminder: ${task.text}`, { body: 'Task due soon!' });
-          } catch (error) {
-            console.error('Failed to deliver reminder notification', error);
+          if (notificationStatus === 'granted') {
+            try {
+              new Notification(`Reminder: ${task.text}`, { body: 'Task due soon!' });
+            } catch (error) {
+              console.error('Failed to deliver reminder notification', error);
+            }
           }
+
+          enqueueReminderAlert(task);
           return { ...task, reminder: undefined };
         }
 
@@ -260,18 +403,26 @@ export const useTasks = () => {
     }, 30000);
 
     return () => clearInterval(interval);
-  }, [notificationStatus, tasks, setTasks]);
+  }, [enqueueReminderAlert, notificationStatus, tasks, setTasks]);
+
+  useEffect(() => {
+    setActiveReminders((prev) => prev.filter((alert) => tasks.some((task) => task.id === alert.id)));
+  }, [tasks]);
 
   return {
     tasks,
     newTask,
     dueDate,
+    dueDateInput,
     reminderDate,
+    reminderDateInput,
     categoryInput,
     tagsInput,
     priorityInput,
     recurrenceInput,
     expandedNotes,
+    dueDateError,
+    reminderError,
     setNewTask,
     setDueDate,
     setReminderDate,
@@ -281,6 +432,8 @@ export const useTasks = () => {
     setRecurrenceInput,
     notificationStatus,
     requestNotificationPermission,
+    onDueDateChange: handleDueDateChange,
+    onReminderDateChange: handleReminderChange,
     addTask,
     deleteTask,
     toggleCompleted,
@@ -288,6 +441,9 @@ export const useTasks = () => {
     cancelEditing,
     saveEdit,
     toggleNotes,
-    saveNotes
+    saveNotes,
+    dismissReminder,
+    snoozeReminder,
+    activeReminders
   };
 };

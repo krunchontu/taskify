@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { TaskForm as StyledTaskForm } from '../theme/components/Form.styles';
 import {
   InputGroup,
@@ -13,10 +13,12 @@ import { baseTheme } from '../theme/theme';
 interface TaskFormProps {
   newTask: string;
   setNewTask: React.Dispatch<React.SetStateAction<string>>;
-  dueDate: Date | null;
-  setDueDate: React.Dispatch<React.SetStateAction<Date | null>>;
-  reminderDate: Date | null;
-  setReminderDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  dueDateInput: string;
+  reminderDateInput: string;
+  onDueDateChange: (value: string) => void;
+  onReminderDateChange: (value: string) => void;
+  dueDateError?: string | null;
+  reminderError?: string | null;
   categoryInput: string;
   setCategoryInput: React.Dispatch<React.SetStateAction<string>>;
   tagsInput: string;
@@ -37,10 +39,12 @@ interface TaskFormProps {
 const TaskForm: React.FC<TaskFormProps> = ({
   newTask,
   setNewTask,
-  dueDate,
-  setDueDate,
-  reminderDate,
-  setReminderDate,
+  dueDateInput,
+  reminderDateInput,
+  onDueDateChange,
+  onReminderDateChange,
+  dueDateError,
+  reminderError,
   categoryInput,
   setCategoryInput,
   tagsInput,
@@ -53,17 +57,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
   requestNotificationPermission,
   addTask,
 }) => {
-  const toDate = useMemo(() => ({
-    fromString: (value: string) => {
-      if (!value) return null;
-
-      const parsed = new Date(value);
-      if (Number.isNaN(parsed.getTime())) return null;
-
-      return parsed;
-    },
-  }), []);
-
   return (
   <StyledTaskForm
     onSubmit={(e: React.FormEvent) => {
@@ -84,23 +77,37 @@ const TaskForm: React.FC<TaskFormProps> = ({
       <DateTimeInput>
         <Input
           type="datetime-local"
-          value={dueDate?.toISOString().slice(0, 16) || ''}
+          value={dueDateInput}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setDueDate(toDate.fromString(e.target.value));
+            onDueDateChange(e.target.value);
           }}
           aria-label="Due date"
+          aria-invalid={Boolean(dueDateError)}
+          aria-describedby={dueDateError ? 'due-date-error' : undefined}
         />
       </DateTimeInput>
       <DateTimeInput>
         <Input
           type="datetime-local"
-          value={reminderDate?.toISOString().slice(0, 16) || ''}
+          value={reminderDateInput}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setReminderDate(toDate.fromString(e.target.value));
+            onReminderDateChange(e.target.value);
           }}
           aria-label="Reminder"
+          aria-invalid={Boolean(reminderError)}
+          aria-describedby={reminderError ? 'reminder-error' : undefined}
         />
       </DateTimeInput>
+      {dueDateError && (
+        <small id="due-date-error" role="status" style={{ color: baseTheme.colors.danger }}>
+          {dueDateError}
+        </small>
+      )}
+      {reminderError && (
+        <small id="reminder-error" role="status" style={{ color: baseTheme.colors.danger }}>
+          {reminderError}
+        </small>
+      )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
         <small>
           {notificationStatus === 'unsupported' && 'Notifications are unavailable in this browser.'}
@@ -127,6 +134,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
           borderRadius: '4px',
           border: `1px solid ${baseTheme.colors.border}`,
         }}
+        aria-label="Task category"
       >
         <option value="">Select Category</option>
         <option value="Personal">Personal</option>

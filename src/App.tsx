@@ -10,28 +10,34 @@ import TaskForm from './components/TaskForm';
 import { ThemeToggle } from './theme/components/ThemeToggle.styles';
 import { useTasks } from './hooks/useTasks';
 import ErrorFallback from './components/ErrorFallback';
+import ReminderCenter from './components/ReminderCenter';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
   const {
     tasks,
     newTask,
-    dueDate,
-    reminderDate,
+    dueDateInput,
+    reminderDateInput,
     categoryInput,
     tagsInput,
     priorityInput,
     recurrenceInput,
     expandedNotes,
+    dueDateError,
+    reminderError,
     setNewTask,
-    setDueDate,
-    setReminderDate,
+    onDueDateChange,
+    onReminderDateChange,
     setCategoryInput,
     setTagsInput,
     setPriorityInput,
     setRecurrenceInput,
     notificationStatus,
     requestNotificationPermission,
+    dismissReminder,
+    snoozeReminder,
+    activeReminders,
     addTask,
     deleteTask,
     toggleCompleted,
@@ -69,13 +75,20 @@ function App() {
           </header>
 
           <main>
+            <ReminderCenter
+              alerts={activeReminders}
+              onDismiss={dismissReminder}
+              onSnooze={snoozeReminder}
+            />
             <TaskForm
               newTask={newTask}
               setNewTask={setNewTask}
-              dueDate={dueDate}
-              setDueDate={setDueDate}
-              reminderDate={reminderDate}
-              setReminderDate={setReminderDate}
+              dueDateInput={dueDateInput}
+              reminderDateInput={reminderDateInput}
+              onDueDateChange={onDueDateChange}
+              onReminderDateChange={onReminderDateChange}
+              dueDateError={dueDateError}
+              reminderError={reminderError}
               categoryInput={categoryInput}
               setCategoryInput={setCategoryInput}
               tagsInput={tagsInput}
