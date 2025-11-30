@@ -48,7 +48,7 @@ A modern task management application with intuitive UI and essential productivit
 
 3. **Notifications**
    - Allow browser notifications when prompted
-   - Receive desktop alerts for upcoming reminders
+   - Receive desktop alerts for upcoming reminders and use the in-app reminder center to snooze or dismiss alerts when notifications are blocked
 
 ## Built With 🔧
 
