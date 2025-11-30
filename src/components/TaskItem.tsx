@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FiEdit, FiTrash, FiCheckCircle, FiCircle, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { MdAccessTime, MdNotifications } from 'react-icons/md';
 import {
@@ -41,6 +41,17 @@ const TaskItem: React.FC<TaskItemProps> = ({
 }) => {
   const { tags = [] } = task;
   const [draftText, setDraftText] = useState(task.text);
+
+  const formatDateTime = useMemo(
+    () => (value: Date) =>
+      value.toLocaleString(undefined, {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+    []
+  );
 
   useEffect(() => {
     setDraftText(task.text);
@@ -89,12 +100,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
         <div className="date-info">
           <MdAccessTime className="icon" />
           <span>
-            {new Date(task.dueDate).toLocaleDateString(undefined, {
-              month: 'short',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })}
+            {formatDateTime(new Date(task.dueDate))}
           </span>
         </div>
       )}
@@ -102,7 +108,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
         <div className="date-info">
           <MdNotifications className="icon" />
           <span>
-            {new Date(task.reminder).toLocaleDateString()}
+            {formatDateTime(new Date(task.reminder))}
           </span>
         </div>
       )}
@@ -147,6 +153,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
             e.stopPropagation();
             toggleNotes(task.id);
           }}
+          aria-label={expandedNotes.has(task.id) ? 'Hide notes' : 'Show notes'}
         >
           {expandedNotes.has(task.id) ? <FiChevronUp /> : <FiChevronDown />}
         </NotesButton>

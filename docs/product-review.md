@@ -5,16 +5,20 @@
 - Rich-yet-optional task metadata (priority, category, tags, notes, recurrence) surfaces context without forcing overhead.
 - Accessibility touchpoints: empty-list status copy, semantic form labels, and an error boundary to avoid white screens.
 - Theming toggle supports different lighting conditions and reinforces the calm, neuro-inclusive position.
+- Reminders now surface actionable snooze/dismiss controls with inline date/reminder validation to prevent silent failures.
 
 ## The Bad
-- Reminder delivery uses the `Notification` API without snooze/dismiss controls, so alerts are still fire-and-forget.
-- Reminder polling now pauses on hidden tabs, but there is still no batching or backoff strategy.
-- Test surface is improving but UI-level coverage (notes editing, category filter) remains thin.
+- Reminder polling now pauses on hidden tabs, but there is still no batching or backoff strategy to reduce noisy check-ins.
+- Test surface improved but still leans on hook-level coverage; logging is absent for harder-to-reproduce issues.
 
 ## The Ugly
 - No analytics or logging for failures (storage, notification, recurrence) makes it hard to debug real-world issues.
 - Documentation was missing MVP intent and blue-ocean positioning prior to the latest iterations, causing ambiguity for contributors.
 
 ## Doc vs. Code Consistency Check
-- README feature list now matches implemented capabilities (categories, tags, recurrence, notes, local storage, theming).
+- README feature list now matches implemented capabilities (categories, tags, recurrence, notes, local storage, theming) and clarifies timestamped reminders.
 - MVP/blue-ocean expectations are captured in `docs/mvp-blue-ocean.md` and aligned with current functionality.
+
+## Open Issues (Unresolved)
+- Explore batching/backoff for reminder polling so periodic checks stay quiet when no alerts are due.
+- Add lightweight analytics/logging for failures (storage, notification, recurrence) to aid debugging.

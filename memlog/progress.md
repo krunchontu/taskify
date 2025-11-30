@@ -65,3 +65,35 @@ Next Steps:
 2. Cover notes editing and category filter behaviors with component tests.
 3. Revisit storage analytics/logging strategy to aid future debugging.
 Blockers: None identified
+
+[2025-12-02 PROGRESS]
+Phase: 1.5 - Timestamp clarity & issue logging
+Actions Completed:
+- Updated reminder and due date displays to show timestamped values that match the documented scheduling aids.
+- Synced README, MVP, and product review docs with the timestamp behavior and recorded open usability/test gaps.
+- Ran the automated test suite (react-scripts) to confirm existing coverage still passes.
+Pending Actions:
+- [ ] Add UX for snoozing/dismissing reminders when permission is granted.
+- [ ] Provide inline validation/feedback for invalid date or reminder inputs.
+- [ ] Add UI-level tests for notes editing and category filtering.
+- [ ] Explore batching/backoff strategies for reminder polling to reduce noise.
+Next Steps:
+1. Implement reminder snooze/dismiss affordances so alerts are actionable without being fire-and-forget.
+2. Add inline validation for malformed dates/reminders to surface issues before persistence.
+3. Expand component-level tests around notes editing and category filtering to shore up UI coverage.
+Blockers: None identified
+
+[2025-12-03 PROGRESS]
+Phase: 1.6 - Actionable reminders & validation
+Actions Completed:
+- Added an in-app reminder center with snooze and dismiss controls tied to reminder delivery.
+- Introduced inline validation for due dates and reminders to block malformed inputs before persistence.
+- Expanded UI test coverage around notes editing persistence and category-based filtering.
+Pending Actions:
+- [ ] Explore reminder polling backoff/batching to reduce noise when no alerts are due.
+- [ ] Add lightweight analytics/logging for storage, notification, and recurrence failures.
+Next Steps:
+1. Prototype a reminder interval backoff that quiets checks until the next scheduled alert.
+2. Instrument minimal logging/telemetry hooks to capture reminder and storage failures without external services.
+3. Reassess UX after backoff/logging to prioritize the next focus-mode experiment.
+Blockers: None identified

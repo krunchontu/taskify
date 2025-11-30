@@ -43,8 +43,8 @@ describe('useTasks', () => {
 
     act(() => {
       result.current.setNewTask('Recurring task');
-      result.current.setDueDate(dueDate);
-      result.current.setReminderDate(reminder);
+      result.current.onDueDateChange(dueDate.toISOString().slice(0, 16));
+      result.current.onReminderDateChange(reminder.toISOString().slice(0, 16));
       result.current.setRecurrenceInput('weekly');
     });
 
@@ -86,7 +86,7 @@ describe('useTasks', () => {
 
     act(() => {
       result.current.setNewTask('Reminder task');
-      result.current.setReminderDate(new Date(Date.now() - 1000));
+      result.current.onReminderDateChange(new Date(Date.now() - 1000).toISOString().slice(0, 16));
     });
 
     act(() => {
@@ -99,5 +99,50 @@ describe('useTasks', () => {
 
     await waitFor(() => expect(messages).toHaveLength(1));
     await waitFor(() => expect(result.current.tasks[0].reminder).toBeUndefined());
+  });
+
+  test('queues actionable reminders and supports snooze/dismiss', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const NotificationMock: any = Object.assign(
+      function NotificationMock() {},
+      {
+        permission: 'granted' as NotificationPermission,
+        requestPermission: jest.fn().mockResolvedValue('granted'),
+      }
+    );
+
+    global.Notification = NotificationMock;
+
+    const { result } = renderHook(() => useTasks());
+
+    act(() => {
+      result.current.setNewTask('Actionable reminder');
+      result.current.onReminderDateChange(new Date(Date.now() - 1000).toISOString().slice(0, 16));
+    });
+
+    act(() => {
+      result.current.addTask();
+    });
+
+    act(() => {
+      jest.advanceTimersByTime(31000);
+    });
+
+    await waitFor(() => expect(result.current.activeReminders).toHaveLength(1));
+
+    const reminderId = result.current.tasks[0].id;
+
+    act(() => {
+      result.current.snoozeReminder(reminderId, 5);
+    });
+
+    expect(result.current.activeReminders).toHaveLength(0);
+    expect(result.current.tasks[0].reminder).toBeInstanceOf(Date);
+
+    act(() => {
+      result.current.dismissReminder(reminderId);
+    });
+
+    expect(result.current.tasks[0].reminder).toBeUndefined();
   });
 });
