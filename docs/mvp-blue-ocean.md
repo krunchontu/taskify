@@ -24,6 +24,10 @@
 - Invalid or corrupted dates are dropped before rendering to prevent crashes.
 - No data loss after refresh; corrupted storage clears automatically.
 
+## MVP Gaps to Close Next
+- Provide inline validation or warnings when due dates or reminders are set in the past to avoid instant-fire alerts.
+- Add lightweight client-side logging/telemetry for storage, notification, and recurrence failures without introducing accounts or external services.
+
 ## Next Experiments
 - Add optional focus-mode view that surfaces only today's priorities to reinforce the calm positioning.
 - Lightweight "energy" tagging (high/low effort) to support neuro-inclusive planning.

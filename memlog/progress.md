@@ -97,3 +97,34 @@ Next Steps:
 2. Instrument minimal logging/telemetry hooks to capture reminder and storage failures without external services.
 3. Reassess UX after backoff/logging to prioritize the next focus-mode experiment.
 Blockers: None identified
+
+[2025-12-04 PROGRESS]
+Phase: 1.7 - MVP compliance audit & reminder hygiene
+Actions Completed:
+- Reviewed README, MVP, and product-review docs against the current codebase and aligned reminder center guidance with the implemented snooze/dismiss UX.
+- Logged a new gap for past-due due dates/reminders that currently bypass inline warnings and updated the error log accordingly.
+- Installed dependencies (legacy peer resolution for React 19) and ran the automated test suite to confirm baseline stability.
+Pending Actions:
+- [ ] Implement reminder polling backoff/batching to reduce idle churn when no alerts are imminent.
+- [ ] Add inline validation or warnings for past-due due dates/reminders so users do not get instant-fire alerts.
+- [ ] Add lightweight client-side logging/telemetry for storage, notification, and recurrence failures.
+Next Steps:
+1. Prototype reminder polling backoff keyed to the next scheduled alert rather than a fixed interval.
+2. Surface friendly validation for past-due dates/reminders and block saving when the timestamp has already elapsed.
+3. Instrument minimal logging to capture reminder/storage anomalies without introducing external dependencies.
+Blockers: None identified
+
+[2025-12-05 PROGRESS]
+Phase: 1.8 - Reminder backoff & alignment
+Actions Completed:
+- Implemented reminder polling backoff keyed to the next scheduled alert while preserving visibility guards.
+- Updated MVP and product review docs to reflect the completed backoff work and current open issues.
+- Ran the automated test suite to ensure the new scheduling logic did not regress existing coverage.
+Pending Actions:
+- [ ] Add inline validation or warnings for past-due due dates/reminders so users do not get instant-fire alerts.
+- [ ] Add lightweight client-side logging/telemetry for storage, notification, and recurrence failures.
+Next Steps:
+1. Design and implement past-due date/reminder warnings to block instant-fire saves.
+2. Prototype lightweight client-side logging for reminder/storage failures without external services.
+3. Reassess reminder UX after logging/past-due validation to prioritize upcoming focus-mode experiments.
+Blockers: None identified

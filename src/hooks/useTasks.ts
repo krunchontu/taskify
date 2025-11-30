@@ -372,20 +372,38 @@ export const useTasks = () => {
   }, []);
 
   useEffect(() => {
-    if (!tasks.some((task) => task.reminder)) return;
+    const reminders = tasks.filter((task) => task.reminder);
+    if (reminders.length === 0) return;
 
-    const interval = setInterval(() => {
+    const visibilityPollIntervalMs = 30000;
+    const minimumPollIntervalMs = 1000;
+    let timeoutId: number | undefined;
+
+    const scheduleNext = (delayMs: number) => {
+      if (timeoutId !== undefined) clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(runCheck, delayMs);
+    };
+
+    const runCheck = () => {
       if (typeof document !== 'undefined' && document.visibilityState === 'hidden') {
+        scheduleNext(visibilityPollIntervalMs);
         return;
       }
 
-      setTasks((prev) => prev.map((task) => {
+      const now = Date.now();
+      let hasChanges = false;
+      let nextReminderTime: number | null = null;
+
+      const updatedTasks = tasks.map((task) => {
         if (!task.reminder) return task;
 
         const reminderTime = new Date(task.reminder).getTime();
-        if (Number.isNaN(reminderTime)) return { ...task, reminder: undefined };
+        if (Number.isNaN(reminderTime)) {
+          hasChanges = true;
+          return { ...task, reminder: undefined };
+        }
 
-        if (Date.now() >= reminderTime) {
+        if (now >= reminderTime) {
           if (notificationStatus === 'granted') {
             try {
               new Notification(`Reminder: ${task.text}`, { body: 'Task due soon!' });
@@ -395,14 +413,36 @@ export const useTasks = () => {
           }
 
           enqueueReminderAlert(task);
+          hasChanges = true;
           return { ...task, reminder: undefined };
         }
 
+        nextReminderTime = nextReminderTime === null ? reminderTime : Math.min(nextReminderTime, reminderTime);
         return task;
-      }));
-    }, 30000);
+      });
 
-    return () => clearInterval(interval);
+      if (hasChanges) {
+        setTasks(updatedTasks);
+        return;
+      }
+
+      if (nextReminderTime !== null) {
+        scheduleNext(Math.max(nextReminderTime - now, minimumPollIntervalMs));
+      }
+    };
+
+    const initialReminderTime = reminders
+      .map((task) => (task.reminder ? new Date(task.reminder).getTime() : null))
+      .filter((time): time is number => time !== null && !Number.isNaN(time))
+      .reduce<number | null>((soonest, time) => (soonest === null ? time : Math.min(soonest, time)), null);
+
+    if (initialReminderTime !== null) {
+      scheduleNext(Math.max(initialReminderTime - Date.now(), minimumPollIntervalMs));
+    }
+
+    return () => {
+      if (timeoutId !== undefined) clearTimeout(timeoutId);
+    };
   }, [enqueueReminderAlert, notificationStatus, tasks, setTasks]);
 
   useEffect(() => {

@@ -8,7 +8,7 @@
 - Reminders now surface actionable snooze/dismiss controls with inline date/reminder validation to prevent silent failures.
 
 ## The Bad
-- Reminder polling now pauses on hidden tabs, but there is still no batching or backoff strategy to reduce noisy check-ins.
+- Reminder polling now backs off until the next scheduled alert but still lacks logging for harder-to-reproduce issues.
 - Test surface improved but still leans on hook-level coverage; logging is absent for harder-to-reproduce issues.
 
 ## The Ugly
@@ -18,7 +18,8 @@
 ## Doc vs. Code Consistency Check
 - README feature list now matches implemented capabilities (categories, tags, recurrence, notes, local storage, theming) and clarifies timestamped reminders.
 - MVP/blue-ocean expectations are captured in `docs/mvp-blue-ocean.md` and aligned with current functionality.
+- Reminder UX in the app (snooze/dismiss center plus inline validation for format/order) matches the documented scheduling aids, but past-due dates/reminders still slip through without warnings.
 
 ## Open Issues (Unresolved)
-- Explore batching/backoff for reminder polling so periodic checks stay quiet when no alerts are due.
 - Add lightweight analytics/logging for failures (storage, notification, recurrence) to aid debugging.
+- Block or warn on past-due due dates and reminders to prevent instant-fire alerts and reduce confusion.
